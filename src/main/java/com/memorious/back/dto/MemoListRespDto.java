@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class MemoWriteReqDto {
+public class MemoListRespDto {
     private String author;
     private String memoContent;
     private String createdDate;
