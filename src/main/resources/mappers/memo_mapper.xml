@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.memorious.back.repository.MemoMapper">
+    <resultMap id="memoMap" type="com.memorious.back.entity.MemoEntity">
+        <id property="memoId" column="memo_id" />
+        <result property="createdDate" column="created_date" />
+        <result property="content" column="content" />
+        <result property="memoAuthorId" column="memo_author_id" />
+    </resultMap>
+    <insert id="writeMemo" parameterType="com.memorious.back.entity.MemoEntity">
+        insert into
+            memo_tb
+        values
+            (0, #{content}, #{createdDate}, #{memoAuthorId})
+    </insert>
+</mapper>
