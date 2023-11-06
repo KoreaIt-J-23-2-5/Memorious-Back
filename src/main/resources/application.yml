@@ -1,0 +1,11 @@
+spring:
+  profiles.include:
+    - secret
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://memorious-db.crstfhvl8zsl.ap-northeast-2.rds.amazonaws.com:3306/memorious
+    username: rootMaster
+
+mybatis:
+  mapper-locations:
+    - /mappers/*.xml
