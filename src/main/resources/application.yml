@@ -11,6 +11,7 @@ spring:
             authorizationGrantType: authorization_code
             clientAuthenticationMethod: POST
             clientName: Naver
+
         provider:
           naver:
             authorizationUri: https://nid.naver.com/oauth2.0/authorize
