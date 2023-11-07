@@ -15,10 +15,24 @@
         values
             (0, #{content}, #{createdDate}, #{memoAuthorId})
     </insert>
+    <update id="updateMemoContent" parameterType="com.memorious.back.entity.MemoEntity">
+        update
+            memo_tb
+        set
+            content = #{content},
+            created_date = #{createdDate}
+        where
+            memo_id = #{memoId}
+    </update>
+    <delete id="deleteMemoContent" parameterType="int">
+        delete from memo_tb
+        where memo_id = #{index}
+    </delete>
     <select id="getMemoList"
             parameterType="int"
             resultMap="memoMap">
         select
+            memo_id,
             content,
             created_date,
             memo_author_id
@@ -33,6 +47,19 @@
             count(content)
         from
             memo_tb
+    </select>
+    <select id="findMemo" resultMap="memoMap">
+        select
+            memo_id,
+            content,
+            created_date,
+            memo_author_id
+        from
+            memo_tb
+        where
+            content like concat("%", #{searchkey}, "%")
+        order by
+            memo_id desc;
     </select>
 
 </mapper>

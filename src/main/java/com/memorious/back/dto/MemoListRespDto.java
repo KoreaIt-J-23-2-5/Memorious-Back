@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class MemoListRespDto {
+    private int memoId;
     private String author;
     private String memoContent;
     private String createdDate;

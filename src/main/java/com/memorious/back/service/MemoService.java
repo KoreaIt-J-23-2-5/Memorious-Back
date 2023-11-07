@@ -34,4 +34,23 @@ public class MemoService {
         System.out.println(index);
         return resultMap;
     }
+
+    public boolean updateMemo(int index, MemoDto memoDto) {
+        System.out.println(index);
+        MemoEntity memoEntity = memoDto.toIndexEntity(index);
+        memoEntity.setMemoId(index);
+        return memoMapper.updateMemoContent(memoEntity) > 0;
+    }
+
+    public boolean deleteMemo(int index) {
+        return memoMapper.deleteMemoContent(index) > 0;
+    }
+
+    public List<MemoListRespDto> findMemo(String searchkey) {
+        List<MemoListRespDto> memoList = new ArrayList<>();
+        memoMapper.findMemo(searchkey).forEach(memoEntity -> {
+            memoList.add(memoEntity.toDto());
+        });
+        return memoList;
+    }
 }

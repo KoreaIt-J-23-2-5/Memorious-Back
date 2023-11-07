@@ -19,6 +19,7 @@ public class MemoEntity {
 
     public MemoListRespDto toDto() {
         return MemoListRespDto.builder()
+                .memoId(memoId)
                 .author(memoAuthorId)
                 .memoContent(content)
                 .createdDate(createdDate)

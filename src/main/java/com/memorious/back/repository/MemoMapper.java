@@ -10,4 +10,7 @@ public interface MemoMapper {
     public int writeMemo(MemoEntity memoEntity);
     public List<MemoEntity> getMemoList(int index);
     public int getMemoListTotalCount();
+    public int updateMemoContent(MemoEntity memoEntity);
+    public int deleteMemoContent(int index);
+    public List<MemoEntity> findMemo(String searchkey);
 }

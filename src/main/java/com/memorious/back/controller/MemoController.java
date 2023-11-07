@@ -22,4 +22,19 @@ public class MemoController {
     public ResponseEntity<?> getMemos(@PathVariable int pageNum){
         return ResponseEntity.ok(memoService.getMemoList(pageNum));
     }
+
+    @PutMapping("/memo/{memoId}")
+    public ResponseEntity<?> updateMemo(@PathVariable int memoId, @RequestBody MemoDto memoDto) {
+        return ResponseEntity.ok(memoService.updateMemo(memoId, memoDto));
+    }
+
+    @DeleteMapping("/memo/{memoId}")
+    public ResponseEntity<?> deleteMemo(@PathVariable int memoId) {
+        return ResponseEntity.ok(memoService.deleteMemo(memoId));
+    }
+
+    @GetMapping("/memo/search")
+    public ResponseEntity<?> findMemo(@RequestParam(value = "searchkey") String searchkey) {
+        return ResponseEntity.ok(memoService.findMemo(searchkey));
+    }
 }
