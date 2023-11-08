@@ -32,13 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll() //permitAll() : Security filter에서 특정 처리를 하지 않고 controller로 보냄을 의미
                 .anyRequest()
                 .authenticated()
-                .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                .authenticationEntryPoint(principalEntryPoint)
+//                .and()
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .exceptionHandling()
+//                .authenticationEntryPoint(principalEntryPoint)
                 .and()
                 .oauth2Login()
-                .loginPage("http://localhost:3000/signinoauth2") //FE에서 로그인 화면
+                .loginPage("http://localhost:3000/auth/oauth2/signup") //FE에서 로그인 화면
                 //정상적으로 principal을 받아서 auth 객체 생성하면 여기로 들어감. oAuth2SuccessHandler: 필터 후처리
                 .successHandler(oAuth2SuccessHandler) //반드시 필요
                 //요청을 보내면 여기서 받음(컨트롤러 역할) //여기서 yml에 있는 인가 토큰을 받는 동작이 일어남

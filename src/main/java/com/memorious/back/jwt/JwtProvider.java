@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -29,15 +30,19 @@ public class JwtProvider {
         this.userMapper = userMapper; //@reqArgs 말고 직접 생성자 통해 DI 하는 법
     }
 
-    public String generateToken(Authentication authentication) {
-        String email = authentication.getName();
+    public String generateToken(PrincipalUser principalUser) {
+        int userId = principalUser.getUser().getUserId();
+        String email = principalUser.getUser().getEmail();
+        String oauth2Id = principalUser.getUser().getOauth2Id();
 
         Date date = new Date(new Date().getTime() + (1000 * 60 * 60 * 24));
         //토큰 생성
         return Jwts.builder()
                 .setSubject("AccessToken")
                 .setExpiration(date)
+                .claim("userId", userId)
                 .claim("email", email)
+                .claim("oauth2Id", oauth2Id)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -83,7 +88,8 @@ public class JwtProvider {
             return null; //회원탈퇴했을 시
         }
 
-        PrincipalUser principalUser = new PrincipalUser();
-        return new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
+//        PrincipalUser principalUser = new PrincipalUser(user, claims.get("") ); //PrincipalUser(User, Map<> attributes, nameAttributeKey)
+//        return new OAuth2AuthenticationToken();
+        return null;
     }
 }

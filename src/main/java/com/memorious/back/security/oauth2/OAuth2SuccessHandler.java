@@ -7,6 +7,7 @@ import com.memorious.back.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -25,36 +26,29 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        String oauth2Id = authentication.getName();
-        System.out.println("oauth2Id >> "+ oauth2Id);
+        OAuth2AuthenticationToken authenticationToken = (OAuth2AuthenticationToken) authentication;
+        String oauth2Id = authenticationToken.getName();
 
-//        User user = userMapper.findUserByOAuth2Id(oauth2Id);
-//
-//        if(user == null) {
-//            DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
-//            String name = defaultOAuth2User.getAttributes().get("name").toString();
-//            String profileImg = defaultOAuth2User.getAttributes().get("profile_image").toString();
-//            String provider = defaultOAuth2User.getAttributes().get("provider").toString();
-//
-////            name, profileImg, provider를 가지고 회원가입
-//            //회원가입이 안되었을 때 OAuth2 계정 회원가입 페이지로 이동
-//            response.sendRedirect("http://localhost:3000/signupoauth2" +
-//                    "?oauth2Id=" + oauth2Id +
-//                    "&name=" + URLEncoder.encode(name, "UTF-8") +
-//                    "&profileImage=" + profileImg +
-//                    "&provider=" + provider);
-//            return;
-//        }
+        User user = userMapper.findUserByOAuth2Id(oauth2Id);
 
+        //회원가입이 안돼있을 경우
+        if(user == null) {
+            String provider = authenticationToken.getPrincipal().getAttribute("provider").toString();
 
-//        //아래부터는 소셜 회원가입을 완료한 유저 -> 로그인 시 토큰 생성해줘야함
-//        PrincipalUser principalUser = new PrincipalUser(user);
-//
-//        UsernamePasswordAuthenticationToken authenticationToken =
-//                new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
-//        String accessToken = jwtProvider.generateToken(authenticationToken);
-//        response.sendRedirect("http://localhost:3000/auth/oauth2/signin" +
-//                "?token=" + URLEncoder.encode(accessToken, "UTF-8"));
+//            name, profileImg, provider를 가지고 회원가입
+            //회원가입이 안되었을 때 OAuth2 계정 회원가입 페이지로 이동
+            response.sendRedirect("http://localhost:3000/auth/oauth2/signup" +
+                    "?oauth2Id=" + oauth2Id +
+                    "&provider=" + provider);
+            System.out.println(1);
+            return;
+        }
 
+        PrincipalUser principalUser = new PrincipalUser(user, authenticationToken.getPrincipal().getAttributes(), "id");
+
+        String accessToken = jwtProvider.generateToken(principalUser);
+        response.sendRedirect("http://localhost:3000/auth/oauth2/signin" +
+                "?token=" + URLEncoder.encode(accessToken, "UTF-8"));
+        System.out.println(2);
     }
 }
