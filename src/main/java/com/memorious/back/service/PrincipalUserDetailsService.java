@@ -25,28 +25,33 @@ public class PrincipalUserDetailsService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        DefaultOAuth2User oAuth2User = (DefaultOAuth2User) super.loadUser(userRequest);
+//        userRequest: registration, attribute 가지고 있음
+        DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) super.loadUser(userRequest);
 
         Map<String, Object> attributes = new HashMap<>();
+//        null로 두고 대입하는 방식은 카카오의 경우 Map put()이 안될 수 있음 -> 새로운 map 생성 후 putAll
 
         switch(userRequest.getClientRegistration().getClientName()){
             case "Naver":
-                attributes.putAll((Map<String, Object>) oAuth2User.getAttributes().get("response"));
+                attributes.putAll((Map<String, Object>) defaultOAuth2User.getAttributes().get("response"));
                 break;
             case "Kakao":
-                attributes.putAll(oAuth2User.getAttributes());
+                attributes.putAll(defaultOAuth2User.getAttributes());
                 break;
         }
-
+//      provider는 Oauth2User 기본 정보에 없음 yml에서 명시된 ClientName을 가져와서 항목 추가해줌
         attributes.put("provider", userRequest.getClientRegistration().getClientName());
 
+        //가공해서 다시 defaultOAuth2User를 리턴해줌
         return new DefaultOAuth2User(new ArrayList<>(), attributes, "id");
 
-//        DefaultOAuth2UserService oAuth2UserService = new DefaultOAuth2UserService(); //impl 한 OAuth2UserService를 구현한 클래스임
+
+
+//        DefaultOAuth2UserService: OAuth2UserService impl 하고 loadUser()를 구현한 클래스임
+//        DefaultOAuth2UserService oAuth2UserService = new DefaultOAuth2UserService();
 //        OAuth2User oAuth2User2 = oAuth2UserService.loadUser(userRequest);
 //        oAuth2User2.getAttributes();
 
-        // userRequest : userInfoEndpoint()를 통해 yml의 uri를
 //        OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService(); //업캐스팅
 //        DefaultOAuth2UserService oAuth2UserService = new DefaultOAuth2UserService(); //impl 한 OAuth2UserService를 구현한 클래스임
 //        System.out.println(oAuth2UserService.loadUser(userRequest).getAttributes().get("response"));

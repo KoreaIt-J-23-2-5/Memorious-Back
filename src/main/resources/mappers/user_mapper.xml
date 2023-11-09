@@ -12,6 +12,10 @@
         <result property="oauth2Id" column="oauth2_Id" />
         <result property="provider" column="provider" />
     </resultMap>
+    <insert id="saveUser" parameterType="com.memorious.back.entity.User">
+        insert into user_tb(user_id, email, nickname, oauth2_id, provider)
+        values(0, #{email}, #{nickname}, #{oauth2Id}, #{provider})
+    </insert>
     <select id="findUserByEmail" resultType="com.memorious.back.entity.User">
         select
             ut.user_id,
@@ -25,17 +29,39 @@
         where
             ut.email = #{email}
     </select>
-    <select id="findUserByOAuth2Id" resultType="com.memorious.back.entity.User">
-            select
-                user_id,
-                email,
-                nickname,
-                enabled,
-                oauth2_id,
-                provider
+    <select id="findUserByOAuth2Id" resultMap="userMap">
+        select
+            user_id,
+            email,
+            nickname,
+            enabled,
+            oauth2_id,
+            provider
+        from
+            user_tb
+        where
+            oauth2_id = #{oauth2Id}
+    </select>
+    <!--    중복체크(이메일/닉네임) -->
+    <select id="checkDuplicate"
+            parameterType="com.memorious.back.entity.User"
+            resultType="java.lang.Integer">
+        select
+            (select
+                if(count(*) > 0, 1, 0)
             from
                 user_tb
             where
-                oauth2_id = #{oauth2Id}
-        </select>
+                email = #{email}
+            )
+            +
+            (select
+                if(count(*) > 0, 2, 0)
+            from
+                user_tb
+            where
+                nickname = #{nickname}
+            )
+        as result
+    </select>
 </mapper>

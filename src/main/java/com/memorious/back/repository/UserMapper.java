@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     public User findUserByEmail(String email);
     public User findUserByOAuth2Id(String oauth2Id);
+    public Integer checkDuplicate(User user);
+    public int saveUser(User user);
 }

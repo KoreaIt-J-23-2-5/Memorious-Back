@@ -16,11 +16,20 @@ import javax.validation.Valid;
 public class AuthController {
     private final AuthService authService;
 
+
+
     @PostMapping("/api/auth/oauth2/signup")
-    public ResponseEntity<?> oauth2Signup(@Valid @RequestBody OAuth2SignupReqDto oAuth2SignupReqDto, BindingResult bindingResult){
+    public ResponseEntity<?> oAuth2Signup(@Valid @RequestBody OAuth2SignupReqDto oAuth2SignupReqDto, BindingResult bindingResult){
         System.out.println("controller - oauth2Signup >> " + oAuth2SignupReqDto);
-        authService.signupOAuth2(oAuth2SignupReqDto);
-        return ResponseEntity.ok(null);
+
+        return ResponseEntity.ok(authService.signupOAuth2(oAuth2SignupReqDto));
+    }
+
+    @PostMapping("/api/auth/oauth2/signin")
+    public ResponseEntity<?> oAuth2Signin(@Valid @RequestBody OAuth2SignupReqDto oAuth2SignupReqDto, BindingResult bindingResult){
+        System.out.println("controller - oauth2Signup >> " + oAuth2SignupReqDto);
+
+        return ResponseEntity.ok(authService.signupOAuth2(oAuth2SignupReqDto));
     }
 
 }

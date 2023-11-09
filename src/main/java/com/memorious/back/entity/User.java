@@ -16,5 +16,5 @@ public class User {
     private int enabled;
     private String oauth2Id;
     private String provider;
-
+    private String profileUrl;
 }
