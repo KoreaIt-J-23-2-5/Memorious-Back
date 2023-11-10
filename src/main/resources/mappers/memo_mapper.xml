@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.memorious.back.repository.MemoMapper">
+    <resultMap id="memoMap" type="com.memorious.back.entity.MemoEntity">
+        <id property="memoId" column="memo_id" />
+        <result property="createdDate" column="created_date" />
+        <result property="content" column="content" />
+        <result property="memoAuthorId" column="memo_author_id" />
+    </resultMap>
+    <insert id="writeMemo" parameterType="com.memorious.back.entity.MemoEntity">
+        insert into
+            memo_tb
+        values
+            (0, #{content}, #{createdDate}, #{memoAuthorId})
+    </insert>
+    <update id="updateMemoContent" parameterType="com.memorious.back.entity.MemoEntity">
+        update
+            memo_tb
+        set
+            content = #{content},
+            created_date = #{createdDate}
+        where
+            memo_id = #{memoId}
+    </update>
+    <delete id="deleteMemoContent" parameterType="int">
+        delete from memo_tb
+        where memo_id = #{index}
+    </delete>
+    <select id="getMemoList"
+            parameterType="int"
+            resultMap="memoMap">
+        select
+            memo_id,
+            content,
+            created_date,
+            memo_author_id
+        from
+            memo_tb
+        order by
+            memo_id desc
+        limit #{index}, 9
+    </select>
+    <select id="getMemoListTotalCount" resultType="java.lang.Integer">
+        select
+            count(content)
+        from
+            memo_tb
+    </select>
+    <select id="findMemo" resultMap="memoMap">
+        select
+            memo_id,
+            content,
+            created_date,
+            memo_author_id
+        from
+            memo_tb
+        where
+            content like concat("%", #{searchkey}, "%")
+        order by
+            memo_id desc;
+    </select>
+
+</mapper>
