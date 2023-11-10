@@ -2,13 +2,12 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.memorious.back.repository.UserMapper">
+<mapper namespace="com.memorious.back.repository.AuthMapper">
     <resultMap id="userMap" type="com.memorious.back.entity.User">
-<!--        property: User entity의 멤버 변수명, column: DB의 컬럼명 -->
         <id property="userId" column="user_id" />
         <result property="email" column="email" />
         <result property="nickname" column="nickname" />
-        <result property="enabled" column="enabled" />
+<!--        <result property="enabled" column="enabled" />-->
         <result property="oauth2Id" column="oauth2_Id" />
         <result property="provider" column="provider" />
     </resultMap>
@@ -34,7 +33,6 @@
             user_id,
             email,
             nickname,
-            enabled,
             oauth2_id,
             provider
         from
@@ -42,7 +40,6 @@
         where
             oauth2_id = #{oauth2Id}
     </select>
-    <!--    중복체크(이메일/닉네임) -->
     <select id="checkDuplicate"
             parameterType="com.memorious.back.entity.User"
             resultType="java.lang.Integer">

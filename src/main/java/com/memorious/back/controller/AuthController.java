@@ -1,35 +1,26 @@
 package com.memorious.back.controller;
 
-import com.memorious.back.dto.OAuth2SignupReqDto;
+import com.memorious.back.dto.OAuth2SigninReqDto;
 import com.memorious.back.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AuthController {
+
     private final AuthService authService;
 
-
-
-    @PostMapping("/api/auth/oauth2/signup")
-    public ResponseEntity<?> oAuth2Signup(@Valid @RequestBody OAuth2SignupReqDto oAuth2SignupReqDto, BindingResult bindingResult){
-        System.out.println("controller - oauth2Signup >> " + oAuth2SignupReqDto);
-
-        return ResponseEntity.ok(authService.signupOAuth2(oAuth2SignupReqDto));
+    @PostMapping("/auth/oauth2/signup")
+    public ResponseEntity<?> signup(@RequestBody OAuth2SigninReqDto oAuth2SigninReqDto) {
+        return ResponseEntity.ok(authService.signInAndUp(oAuth2SigninReqDto));
     }
 
-    @PostMapping("/api/auth/oauth2/signin")
-    public ResponseEntity<?> oAuth2Signin(@Valid @RequestBody OAuth2SignupReqDto oAuth2SignupReqDto, BindingResult bindingResult){
-        System.out.println("controller - oauth2Signup >> " + oAuth2SignupReqDto);
-
-        return ResponseEntity.ok(authService.signupOAuth2(oAuth2SignupReqDto));
+    @GetMapping("/auth/oauth2/signin")
+    public ResponseEntity<?> signin(@RequestHeader(value = "Authorization") String token) {
+        return ResponseEntity.ok(token);
     }
-
 }

@@ -1,7 +1,7 @@
 package com.memorious.back.jwt;
 
 import com.memorious.back.entity.User;
-import com.memorious.back.repository.UserMapper;
+import com.memorious.back.repository.AuthMapper;
 import com.memorious.back.security.PrincipalUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -22,74 +21,70 @@ import java.util.Date;
 @Component
 public class JwtProvider {
     private final Key key;
-    private final UserMapper userMapper;
+    private final AuthMapper authMapper;
 
     public JwtProvider(@Value("${jwt.secret}") String secret,
-                       @Autowired UserMapper userMapper) {
-        key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
-        this.userMapper = userMapper; //@reqArgs 말고 직접 생성자 통해 DI 하는 법
+                       @Autowired AuthMapper authMapper) {
+        key = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secret));
+        this.authMapper = authMapper;
     }
 
-    public String generateToken(PrincipalUser principalUser) {
-        int userId = principalUser.getUser().getUserId();
-        String email = principalUser.getUser().getEmail();
-        String oauth2Id = principalUser.getUser().getOauth2Id();
+    public String generateToken(Authentication authentication) {
+        String email = authentication.getName();
 
-        Date date = new Date(new Date().getTime() + (1000 * 60 * 60 * 24));
-        //토큰 생성
+        Date expiryDate = new Date(new Date().getTime() + (1000 * 60 * 60* 24));
         return Jwts.builder()
                 .setSubject("AccessToken")
-                .setExpiration(date)
-                .claim("userId", userId)
+                .setExpiration(expiryDate)
                 .claim("email", email)
-                .claim("oauth2Id", oauth2Id)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-
     public Claims getClaims(String token) {
         Claims claims = null;
-
         try {
             claims = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-//            System.out.println("getClaims() >> " + claims);
-        } catch (Exception e) {
-//            System.out.println(e.getClass() + " >>> " + e.getMessage());
+        }catch(Exception e) {
+            System.out.println("토큰오류");
         }
         return claims;
     }
 
-    //bearer 떼기
-    public String getToken(String bearerToken) {
-        if(!StringUtils.hasText(bearerToken)){
+    public String getToken(String bearerToken){
+
+        if(!StringUtils.hasText(bearerToken)) {
             return null;
         }
         return bearerToken.substring("Bearer ".length());
     }
 
     public Authentication getAuthentication(String token) {
-        //db에서 User를 찾아와서 principalUser에 넣음
-
-        Claims claims = getClaims(token); //getClaims: 토큰의 내용을 추출
-//        System.out.println(claims);
+        Claims claims = getClaims(token);
         if(claims == null) {
-            return null; //Auth가 null이다 -> 토큰이 유효하지 x
+            return null;
         }
-
-        //토큰이 유효하지만 db에서 User를 지웠을 수 있음(탈퇴)
-        User user = userMapper.findUserByEmail(claims.get("email").toString());
-
-        if(user == null){
-            return null; //회원탈퇴했을 시
+        User user = authMapper.findUserByEmail(claims.get("email").toString());
+        if(user == null) {
+            return null;
         }
-
-//        PrincipalUser principalUser = new PrincipalUser(user, claims.get("") ); //PrincipalUser(User, Map<> attributes, nameAttributeKey)
-//        return new OAuth2AuthenticationToken();
-        return null;
+        PrincipalUser principalUser = new PrincipalUser(user);
+        return new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
     }
+
+    public String generateAuthMailToken (String email) {
+        Date expiryDate = new Date(new Date().getTime() + 1000* 60 * 5);
+
+        return Jwts.builder()
+                .setSubject("AuthenticationEmailToken")
+                .setExpiration(expiryDate)
+                .claim("email", email)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
 }
