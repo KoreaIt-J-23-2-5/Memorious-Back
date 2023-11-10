@@ -29,14 +29,20 @@ public class JwtProvider {
         this.authMapper = authMapper;
     }
 
-    public String generateToken(Authentication authentication) {
-        String email = authentication.getName();
+    public String generateToken(PrincipalUser principalUser) {
+        String email = principalUser.getUser().getEmail();
+        String nickname = principalUser.getUser().getNickname();
+        String oauth2Id = principalUser.getUser().getOauth2Id();
+        int userId = principalUser.getUser().getUserId();
 
         Date expiryDate = new Date(new Date().getTime() + (1000 * 60 * 60* 24));
         return Jwts.builder()
                 .setSubject("AccessToken")
                 .setExpiration(expiryDate)
                 .claim("email", email)
+                .claim("nickname", nickname)
+                .claim("oauth2Id", oauth2Id)
+                .claim("userId", userId)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -68,23 +74,13 @@ public class JwtProvider {
         if(claims == null) {
             return null;
         }
+        System.out.println(claims);
         User user = authMapper.findUserByEmail(claims.get("email").toString());
         if(user == null) {
             return null;
         }
         PrincipalUser principalUser = new PrincipalUser(user);
         return new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
-    }
-
-    public String generateAuthMailToken (String email) {
-        Date expiryDate = new Date(new Date().getTime() + 1000* 60 * 5);
-
-        return Jwts.builder()
-                .setSubject("AuthenticationEmailToken")
-                .setExpiration(expiryDate)
-                .claim("email", email)
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
     }
 
 }

@@ -5,6 +5,9 @@ import com.memorious.back.entity.User;
 import com.memorious.back.jwt.JwtProvider;
 import com.memorious.back.repository.AuthMapper;
 import com.memorious.back.security.PrincipalProvider;
+import com.memorious.back.security.PrincipalUser;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,8 +27,9 @@ public class AuthService {
         if (authMapper.saveUser(user) > 0) {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(oAuth2SigninReqDto.getEmail(), null);
             Authentication authentication = provider.authenticate(token);
-            return jwtProvider.generateToken(authentication);
+            return jwtProvider.generateToken((PrincipalUser) authentication);
         }
         throw new UsernameNotFoundException("유저를 찾을 수 없습니다");
     }
+
 }

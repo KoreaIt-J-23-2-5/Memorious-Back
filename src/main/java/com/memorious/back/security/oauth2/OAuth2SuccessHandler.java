@@ -31,19 +31,16 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String oauth2Id = authentication.getName();
         User user = authMapper.findUserByOAuth2Id(oauth2Id);
         String provider = defaultOAuth2User.getAttributes().get("provider").toString();
-        // Todo 여기가 이상함
+
         if(user == null) {
             response.sendRedirect("http://localhost:3000/auth/oauth2/signin" +
-                    "?oauth2Id=" + oauth2Id
-                    +
+                    "?oauth2Id=" + oauth2Id +
                     "&provider=" + provider);
             return;
         }
-
+        System.out.println(user);
         PrincipalUser principalUser = new PrincipalUser(user);
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
-        String token = jwtProvider.generateToken(authenticationToken);
+        String token = jwtProvider.generateToken(principalUser);
         response.sendRedirect("http://localhost:3000/auth/oauth2/signup/redirect?token=" + URLEncoder.encode(token, "UTF-8")); // 프론트 처리
     }
 }

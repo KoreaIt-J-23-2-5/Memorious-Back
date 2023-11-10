@@ -25,7 +25,6 @@ public class ChartController {
 
     @PutMapping("/chart")
     public ResponseEntity<?> editChartTableData(@RequestBody ChartDataUpdateReqDto chartDataUpdateReqDto) {
-        System.out.println(chartDataUpdateReqDto);
         return ResponseEntity.ok(chartService.updateChartData(chartDataUpdateReqDto));
     }
 }

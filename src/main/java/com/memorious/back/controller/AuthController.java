@@ -23,4 +23,10 @@ public class AuthController {
     public ResponseEntity<?> signin(@RequestHeader(value = "Authorization") String token) {
         return ResponseEntity.ok(token);
     }
+
+    @GetMapping("/auth/authenticate")
+    public ResponseEntity<?> authenticate(@RequestHeader(value = "Authorization") String token) {
+        boolean flag = token != "" ? true : false;
+        return ResponseEntity.ok(flag);
+    }
 }
