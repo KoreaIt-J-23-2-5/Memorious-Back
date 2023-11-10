@@ -51,7 +51,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         System.out.println(principalUser);
         String accessToken = jwtProvider.generateToken(principalUser);
         //소셜 로그인 성공 시 다음(방 생성 or 소속되어있는 페이지)으로 이동
-        response.sendRedirect("http://localhost:3000/account" +
+        response.sendRedirect("http://localhost:3000/" +
                 "?token=" + URLEncoder.encode(accessToken, "UTF-8"));
     }
 }
