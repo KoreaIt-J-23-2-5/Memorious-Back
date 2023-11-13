@@ -15,6 +15,10 @@
         insert into user_tb(user_id, email, nickname, oauth2_id, provider)
         values(0, #{email}, #{nickname}, #{oauth2Id}, #{provider})
     </insert>
+<!--  todo : 쿼리 추가-->
+    <insert id="joinFamily">
+        insert into family_tb(family_id, family_name
+    </insert>
     <select id="findUserByEmail" resultType="com.memorious.back.entity.User">
         select
             ut.user_id,

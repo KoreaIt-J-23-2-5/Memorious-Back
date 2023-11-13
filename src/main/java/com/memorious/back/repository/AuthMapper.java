@@ -9,4 +9,6 @@ public interface AuthMapper {
     public User findUserByOAuth2Id(String oauth2Id);
     public Integer checkDuplicate(User user);
     public int saveUser(User user);
+//    todo : 수정요함
+    public int joinFamily(User user);
 }
