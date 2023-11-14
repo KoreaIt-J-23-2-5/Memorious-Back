@@ -6,51 +6,25 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Getter
-@AllArgsConstructor
-public class PrincipalUser implements UserDetails {
+public class PrincipalUser extends DefaultOAuth2User {
     @Getter
     private User user;
 
+    public PrincipalUser(User user, Map<String, Object> attributes, String nameAttributeKey) {
+        super(new ArrayList<>(), attributes, nameAttributeKey);
+        this.user = user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
-
-        return simpleGrantedAuthorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return "";
-    }
-
-    @Override
-    public String getUsername() {
-        return user.getOauth2Id();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+        if(user == null) {
+            return new ArrayList<>();
+        }
+        return Arrays.asList(new SimpleGrantedAuthority[] {new SimpleGrantedAuthority(user.getRole())});
     }
 }

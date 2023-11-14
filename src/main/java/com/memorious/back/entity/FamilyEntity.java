@@ -6,15 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class User {
-    private int userId;
-    private String email;
-    private String nickname;
-    private String oauth2Id;
-    private String provider;
+public class FamilyEntity {
+    private int familyId;
+    private String familyName;
     private String profileUrl;
-    private String role;
 }

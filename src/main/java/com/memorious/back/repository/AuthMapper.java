@@ -9,4 +9,5 @@ public interface AuthMapper {
     public User findUserByOAuth2Id(String oauth2Id);
     public Integer checkDuplicate(User user);
     public int saveUser(User user);
+    public int updateRole(int userId);
 }

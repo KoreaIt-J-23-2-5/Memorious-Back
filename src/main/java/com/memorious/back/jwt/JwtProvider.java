@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 
 @Component
 public class JwtProvider {
@@ -29,11 +30,12 @@ public class JwtProvider {
         this.authMapper = authMapper;
     }
 
-    public String generateToken(PrincipalUser principalUser) {
-        String email = principalUser.getUser().getEmail();
-        String nickname = principalUser.getUser().getNickname();
-        String oauth2Id = principalUser.getUser().getOauth2Id();
-        int userId = principalUser.getUser().getUserId();
+    public String generateToken(User user) {
+        String email = user.getEmail();
+        String nickname = user.getNickname();
+        String oauth2Id = user.getOauth2Id();
+        int userId = user.getUserId();
+        String role = user.getRole();
 
         Date expiryDate = new Date(new Date().getTime() + (1000 * 60 * 60* 24));
         return Jwts.builder()
@@ -43,11 +45,13 @@ public class JwtProvider {
                 .claim("nickname", nickname)
                 .claim("oauth2Id", oauth2Id)
                 .claim("userId", userId)
+                .claim("roles", role)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public Claims getClaims(String token) {
+        System.out.println(token);
         Claims claims = null;
         try {
             claims = Jwts.parserBuilder()
@@ -74,12 +78,14 @@ public class JwtProvider {
         if(claims == null) {
             return null;
         }
-        System.out.println(claims);
+        System.out.println("claims >> " + claims);
         User user = authMapper.findUserByEmail(claims.get("email").toString());
         if(user == null) {
             return null;
         }
-        PrincipalUser principalUser = new PrincipalUser(user);
+        HashMap<String, Object> attributes = new HashMap<>();
+        attributes.put("id", claims.get("oauth2Id").toString());
+        PrincipalUser principalUser = new PrincipalUser(user, attributes, "id");
         return new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
     }
 
