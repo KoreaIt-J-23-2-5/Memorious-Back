@@ -39,7 +39,7 @@
         from
             memo_tb
         order by
-            memo_id desc
+            memo_id
         limit #{index}, 9
     </select>
     <select id="getMemoListTotalCount" resultType="java.lang.Integer">

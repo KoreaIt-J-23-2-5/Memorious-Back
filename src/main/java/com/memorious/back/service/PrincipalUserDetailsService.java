@@ -2,7 +2,7 @@ package com.memorious.back.service;
 
 
 import com.memorious.back.entity.User;
-import com.memorious.back.repository.AuthMapper;
+import com.memorious.back.repository.UserMapper;
 import com.memorious.back.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,11 +23,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PrincipalUserDetailsService implements UserDetailsService, OAuth2UserService {
 
-    private final AuthMapper authMapper;
+    private final UserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = authMapper.findUserByEmail(email);
+        User user = userMapper.findUserByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("유저 이름을 찾을 수 없습니다.");
         }
