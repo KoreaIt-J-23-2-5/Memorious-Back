@@ -1,7 +1,7 @@
 package com.memorious.back.jwt;
 
 import com.memorious.back.entity.User;
-import com.memorious.back.repository.AuthMapper;
+import com.memorious.back.repository.UserMapper;
 import com.memorious.back.security.PrincipalUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -22,12 +22,12 @@ import java.util.HashMap;
 @Component
 public class JwtProvider {
     private final Key key;
-    private final AuthMapper authMapper;
+    private final UserMapper userMapper;
 
     public JwtProvider(@Value("${jwt.secret}") String secret,
-                       @Autowired AuthMapper authMapper) {
+                       @Autowired UserMapper userMapper) {
         key = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secret));
-        this.authMapper = authMapper;
+        this.userMapper = userMapper;
     }
 
     public String generateToken(User user) {
@@ -51,7 +51,6 @@ public class JwtProvider {
     }
 
     public Claims getClaims(String token) {
-        System.out.println(token);
         Claims claims = null;
         try {
             claims = Jwts.parserBuilder()
@@ -78,11 +77,13 @@ public class JwtProvider {
         if(claims == null) {
             return null;
         }
-        System.out.println("claims >> " + claims);
-        User user = authMapper.findUserByEmail(claims.get("email").toString());
+
+        User user = userMapper.findUserByEmail(claims.get("email").toString());
+
         if(user == null) {
             return null;
         }
+
         HashMap<String, Object> attributes = new HashMap<>();
         attributes.put("id", claims.get("oauth2Id").toString());
         PrincipalUser principalUser = new PrincipalUser(user, attributes, "id");

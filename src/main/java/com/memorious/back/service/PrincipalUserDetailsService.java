@@ -2,7 +2,7 @@ package com.memorious.back.service;
 
 
 import com.memorious.back.entity.User;
-import com.memorious.back.repository.AuthMapper;
+import com.memorious.back.repository.UserMapper;
 import com.memorious.back.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PrincipalUserDetailsService extends DefaultOAuth2UserService {
 
-    private final AuthMapper authMapper;
+    private final UserMapper userMapper;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
