@@ -27,9 +27,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
-        String oauth2Id = authentication.getName();
+
+        PrincipalUser principalUser = (PrincipalUser) authentication.getPrincipal();
+        String oauth2Id = principalUser.getName();
         User user = userMapper.findUserByOAuth2Id(oauth2Id);
-        String provider = defaultOAuth2User.getAttributes().get("provider").toString();
+        String provider = principalUser.getAttributes().get("provider").toString();
 
         if(user == null) {
             response.sendRedirect("http://localhost:3000/auth/oauth2/signin" +
@@ -37,8 +39,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                     "&provider=" + provider);
             return;
         }
-        PrincipalUser principalUser = new PrincipalUser(user);
-        String token = jwtProvider.generateToken(principalUser);
+        // HEAD
+        String token = jwtProvider.generateToken(user);
+
         response.sendRedirect("http://localhost:3000/auth/oauth2/signup/redirect?token=" + URLEncoder.encode(token, "UTF-8")); // 프론트 처리
     }
 }
