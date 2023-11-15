@@ -2,10 +2,15 @@ package com.memorious.back.controller;
 
 import com.memorious.back.dto.ChartDataReqDto;
 import com.memorious.back.dto.ChartDataUpdateReqDto;
+import com.memorious.back.dto.ChartGraphDataReqDto;
+import com.memorious.back.dto.ChartGraphDataRespDto;
 import com.memorious.back.service.ChartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +30,11 @@ public class ChartController {
 
     @PutMapping("/chart")
     public ResponseEntity<?> editChartTableData(@RequestBody ChartDataUpdateReqDto chartDataUpdateReqDto) {
-        System.out.println(chartDataUpdateReqDto);
         return ResponseEntity.ok(chartService.updateChartData(chartDataUpdateReqDto));
+    }
+
+    @PostMapping("/chart/graph")
+    public ResponseEntity<?> getChartGraphData(@RequestBody ChartGraphDataReqDto chartGraphDataReqDto) {
+        return ResponseEntity.ok(chartService.getChartDataForChart(chartGraphDataReqDto));
     }
 }
