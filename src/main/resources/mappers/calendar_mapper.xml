@@ -3,38 +3,51 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.memorious.back.repository.CalendarMapper">
-    <insert id="insertSchedule" parameterType="com.memorious.back.entity.ScheduleEntity">
+    <insert id="insertSchedule"
+            useGeneratedKeys="true"
+            keyProperty="calendarScheduleId"
+            parameterType="com.memorious.back.entity.ScheduleEntity">
         INSERT INTO calendar_schedule_tb (
-        user_id,
-        title,
-        label_color,
-        start_date,
-        end_date,
-        is_all_day,
-        start_time,
-        end_time,
-        location,
-        repeat_type,
-        repeat_cycle,
-        repeat_end_date,
-        repeat_count,
-        description
+            calendar_schedule_id,
+            user_id,
+            title,
+            label_color,
+            start_date,
+            end_date,
+            is_all_day,
+            start_time,
+            end_time,
+            location,
+            repeat_type,
+            repeat_cycle,
+            repeat_end_date,
+            repeat_count,
+            description
         )
         VALUES (
-        #{userId},
-        #{title},
-        #{labelColor},
-        #{startDate},
-        #{endDate},
-        #{isAllDay},
-        #{startTime},
-        #{endTime},
-        #{location},
-        #{repeatType},
-        #{repeatCycle},
-        #{repeatEndDate},
-        #{repeatCount},
-        #{description}
+            0,
+            #{userId},
+            #{title},
+            #{labelColor},
+            #{startDate},
+            #{endDate},
+            #{isAllDay},
+            #{startTime},
+            #{endTime},
+            #{location},
+            #{repeatType},
+            #{repeatCycle},
+            #{repeatEndDate},
+            #{repeatCount},
+            #{description}
         )
+    </insert>
+
+    <insert id="insertAttendee" parameterType="hashmap">
+        insert into calendar_attendee_tb
+        values
+        <foreach collection="userIdList" item="userId" separator=",">
+            (0, #{calendarScheduleId}, #{userId})
+        </foreach>
     </insert>
 </mapper>
