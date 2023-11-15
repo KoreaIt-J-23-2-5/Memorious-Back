@@ -18,6 +18,7 @@ public class User {
     private String provider;
     private String profileUrl;
     private String role;
+    private int familyId;
 
     public PrincipalRespDto toPrincipalDto() {
         return PrincipalRespDto.builder()
@@ -28,6 +29,7 @@ public class User {
                 .provider(provider)
                 .profileUrl(profileUrl)
                 .role(role)
+                .familyId(familyId)
                 .build();
     }
 }

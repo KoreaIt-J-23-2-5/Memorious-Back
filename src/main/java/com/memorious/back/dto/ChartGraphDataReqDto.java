@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 @Builder
 public class ChartGraphDataReqDto {
-    private List<String> userList;
+    private List<Integer> userList;
     private LocalDate startDate;
 }
