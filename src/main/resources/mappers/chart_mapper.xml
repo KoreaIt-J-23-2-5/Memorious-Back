@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.memorious.back.repository.ChartMapper">
+    <resultMap id="chartDataMap" type="com.memorious.back.entity.ChartDataEntity">
+        <id property="chartDataId" column="chart_data_id" />
+        <result property="userId" column="user_id" />
+        <result property="date" column="date" />
+        <result property="pulse" column="pulse" />
+        <result property="step" column="step" />
+        <result property="fbs" column="fbs" />
+        <result property="buttons" column="buttons" />
+    </resultMap>
+    <insert id="addChartData" parameterType="com.memorious.back.entity.ChartDataEntity">
+        insert into
+            chart_data_tb
+        values
+            (0, #{userId}, #{date}, #{pulse}, #{step}, #{fbs}, "")
+    </insert>
+    <update id="updateChartTableRow">
+        update
+            chart_data_tb
+        set
+            fbs = #{fbs},
+            step = #{step},
+            pulse = #{pulse}
+        where
+            chart_data_id = #{chartDataId}
+    </update>
+    <select id="getChartDataForTable" resultMap="chartDataMap">
+        select
+            cdt.chart_data_id,
+            ut.nickname,
+            cdt.date,
+            cdt.pulse,
+            cdt.step,
+            cdt.fbs,
+            cdt.buttons
+        from
+            chart_data_tb cdt
+            left outer join user_tb ut on(ut.user_id = cdt.user_id)
+        where
+            user_id = #{userId}
+    </select>
+
+    <select id="getFbsDataForChart" resultType="integer">
+        SELECT
+            fbs
+        FROM
+            chart_data_tb
+        WHERE
+            ut.user_id = #{userId}
+    </select>
+    <select id="getStepDataForChart" resultType="integer">
+        SELECT
+            step
+        FROM
+            chart_data_tb
+        WHERE
+            user_id = #{userId}
+    </select>
+    <select id="getPulseDataForChart" resultType="integer">
+        SELECT
+            pulse
+        FROM
+            chart_data_tb
+        WHERE
+            user_id = #{userId}
+    </select>
+
+</mapper>

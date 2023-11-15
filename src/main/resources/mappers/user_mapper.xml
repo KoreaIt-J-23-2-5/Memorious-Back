@@ -3,4 +3,70 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.memorious.back.repository.UserMapper">
+    <resultMap id="userMap" type="com.memorious.back.entity.User">
+        <id property="userId" column="user_id" />
+        <result property="email" column="email" />
+        <result property="nickname" column="nickname" />
+        <result property="oauth2Id" column="oauth2_Id" />
+        <result property="provider" column="provider" />
+        <result property="role" column="role" />
+    </resultMap>
+    <insert id="saveUser" parameterType="com.memorious.back.entity.User">
+        insert into user_tb(user_id, email, nickname, oauth2_id, provider, role)
+        values(0, #{email}, #{nickname}, #{oauth2Id}, #{provider}, "ROLE_USER")
+    </insert>
+    <update id="updateRole">
+        update user_tb
+        set
+            role = "ROLE_ADMIN"
+        where
+            user_id = #{userId}
+    </update>
+    <select id="findUserByEmail" resultMap="userMap">
+        select
+            ut.user_id,
+            ut.email,
+            ut.nickname,
+            ut.oauth2_id,
+            ut.provider,
+            ut.role
+        from
+            user_tb ut
+        where
+            ut.email = #{email}
+    </select>
+    <select id="findUserByOAuth2Id" resultMap="userMap">
+        select
+            user_id,
+            email,
+            nickname,
+            oauth2_id,
+            provider,
+            role
+        from
+            user_tb
+        where
+            oauth2_id = #{oauth2Id}
+    </select>
+    <select id="checkDuplicate"
+            parameterType="com.memorious.back.entity.User"
+            resultType="java.lang.Integer">
+        select
+            (select
+                if(count(*) > 0, 1, 0)
+            from
+                user_tb
+            where
+                email = #{email}
+            )
+            +
+            (select
+                if(count(*) > 0, 2, 0)
+            from
+                user_tb
+            where
+                nickname = #{nickname}
+            )
+        as result
+    </select>
 </mapper>
