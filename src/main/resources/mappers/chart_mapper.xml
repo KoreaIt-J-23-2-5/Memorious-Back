@@ -30,19 +30,43 @@
     </update>
     <select id="getChartDataForTable" resultMap="chartDataMap">
         select
-            chart_data_id,
-            user_id,
-            date,
-            pulse,
-            step,
-            fbs,
-            buttons
+            cdt.chart_data_id,
+            ut.nickname,
+            cdt.date,
+            cdt.pulse,
+            cdt.step,
+            cdt.fbs,
+            cdt.buttons
         from
-            chart_data_tb
+            chart_data_tb cdt
+            left outer join user_tb ut on(ut.user_id = cdt.user_id)
         where
             user_id = #{userId}
-        order by
-            date desc
+    </select>
+
+    <select id="getFbsDataForChart" resultType="integer">
+        SELECT
+            fbs
+        FROM
+            chart_data_tb
+        WHERE
+            ut.user_id = #{userId}
+    </select>
+    <select id="getStepDataForChart" resultType="integer">
+        SELECT
+            step
+        FROM
+            chart_data_tb
+        WHERE
+            user_id = #{userId}
+    </select>
+    <select id="getPulseDataForChart" resultType="integer">
+        SELECT
+            pulse
+        FROM
+            chart_data_tb
+        WHERE
+            user_id = #{userId}
     </select>
 
 </mapper>

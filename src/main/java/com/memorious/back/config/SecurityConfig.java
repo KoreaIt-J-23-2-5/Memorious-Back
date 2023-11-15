@@ -14,7 +14,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
-//@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PrincipalEntryPoint principalEntryPoint;
@@ -27,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/api/chart/**", "/api/memo/**")
+                .antMatchers("/api/chart/**", "/api/memo/**", "api/create/family")
                 .authenticated()
                 .antMatchers("/api/auth/**")
                 .permitAll()
@@ -39,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(principalEntryPoint)
                 .and()
                 .oauth2Login()
-                .loginPage("http://localhost:3000/auth/oauth2/signin")
+                .loginPage("http://localhost:3000/auth/oauth2/signup")
                 .successHandler(oAuth2SuccessHandler)
                 .userInfoEndpoint()
                 .userService(principalUserDetailsService);
