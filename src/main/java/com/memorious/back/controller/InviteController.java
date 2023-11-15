@@ -20,7 +20,7 @@ public class InviteController {
 // mail 보내는 요청에 대한 응답
 	@PostMapping("/invitation/mail")
 	public ResponseEntity<?> sendInviteMail() {
-		return ResponseEntity.ok("true");
+		return mailService.sendAuthMail().ok("true");
 	}
 
 	//family에 insert. 회원가입 후 진행해야함

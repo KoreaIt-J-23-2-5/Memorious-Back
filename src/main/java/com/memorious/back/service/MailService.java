@@ -16,10 +16,13 @@ public class MailService {
 	private final JavaMailSender javaMailSender;
 	private final JwtProvider jwtProvider;
 
+
 	public boolean sendAuthMail() {
-//		todo : 요청받은 이메일로 전송해야함
-//		String toEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-		String toEmail = "jusg0721@naver.com";
+		// todo : (1) 요청받은 이메일로 전송
+		// todo : (2) 이메일 전송 후 invitation_history_tb 에 insert
+
+        String toEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+//		String toEmail = "jusg0721@naver.com";
 
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
