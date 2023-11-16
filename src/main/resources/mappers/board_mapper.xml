@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.memorious.back.repository.BoardMapper">
+    <resultMap id="boardCategoryMap" type="com.memorious.back.entity.BoardCategoryEntity">
+        <id property="boardCategoryId" column="board_category_id" />
+        <result property="boardCategoryName" column="board_category_name" />
+    </resultMap>
+
+    <select id="getBoardCategories" resultMap="boardCategoryMap">
+        select
+        	board_category_id,
+        	board_category_name
+        from
+        	board_category_tb
+    </select>
+</mapper>

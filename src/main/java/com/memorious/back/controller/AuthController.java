@@ -21,7 +21,7 @@ public class AuthController {
 
     @GetMapping("/auth/oauth2/signin")
     public ResponseEntity<?> signin(@RequestHeader(value = "Authorization") String token) {
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(token); //accessToken이 아닌 네이버에서 인증된 다른 토큰임
     }
 
     @GetMapping("/auth/authenticate")
