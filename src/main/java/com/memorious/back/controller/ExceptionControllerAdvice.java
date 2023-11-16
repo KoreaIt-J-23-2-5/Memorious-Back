@@ -1,7 +1,7 @@
 package com.memorious.back.controller;
 
-import com.memorious.back.exception.JoinMailException;
 import com.memorious.back.exception.DuplicateException;
+import com.memorious.back.exception.MailException;
 import com.memorious.back.exception.ValidException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,10 +25,11 @@ public class ExceptionControllerAdvice {
         return ResponseEntity.badRequest().body(duplicateException.getErrorMap());
     }
 
-    @ExceptionHandler(JoinMailException.class)
-   	public ResponseEntity<?> mailException(JoinMailException mailException) {
-   		Map<String, String> message = new HashMap<>();
-   		message.put("authMail", mailException.getMessage());
-   		return ResponseEntity.ok().body(message);
-   	}
+	@ExceptionHandler(MailException.class)
+	public ResponseEntity<?> mailException(MailException mailException) {
+		Map<String, String> message = new HashMap<>();
+		message.put("authMail", mailException.getMessage());
+		return ResponseEntity.ok().body(message);
+	}
+
 }
