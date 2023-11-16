@@ -12,6 +12,10 @@
         <result property="fbs" column="fbs" />
         <result property="buttons" column="buttons" />
     </resultMap>
+    <resultMap id="familyListMap" type="com.memorious.back.entity.FamilyListEntity">
+        <id property="userId" column="user_id" />
+        <result property="nickname" column="nickname" />
+    </resultMap>
     <insert id="addChartData" parameterType="com.memorious.back.entity.ChartDataEntity">
         insert into
             chart_data_tb
@@ -30,19 +34,18 @@
     </update>
     <select id="getChartDataForTable" resultMap="chartDataMap">
         select
-            chart_data_id,
-            user_id,
-            date,
-            pulse,
-            step,
-            fbs,
-            buttons
+            cdt.chart_data_id,
+            ut.nickname,
+            cdt.date,
+            cdt.pulse,
+            cdt.step,
+            cdt.fbs,
+            cdt.buttons
         from
-            chart_data_tb
-        where
-            user_id = #{userId}
-        order by
-            date desc
+            chart_data_tb cdt
+            left outer join user_tb ut on(ut.user_id = cdt.user_id)
+        WHERE
+            ut.user_id = #{userId};
     </select>
 
     <select id="getFbsDataForChart" resultType="integer">
@@ -68,6 +71,23 @@
             chart_data_tb
         WHERE
             user_id = #{userId}
+    </select>
+    <select id="getFamilyList" parameterType="integer" resultMap="familyListMap">
+        SELECT
+            user_id,
+            nickname,
+            profile_url
+        FROM user_tb ut
+            left outer join family_tb ft on(ft.family_id = ut.family_id)
+        where
+            ft.family_id = #{familyId};
+    </select>
+    <select id="getUsername" parameterType="integer" resultType="string">
+        SELECT
+            nickname
+        FROM
+            user_tb
+        where user_id = #{userId}
     </select>
 
 </mapper>

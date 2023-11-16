@@ -18,6 +18,11 @@ import java.util.List;
 public class ChartController {
     private final ChartService chartService;
 
+    @GetMapping("/chart/family")
+    public ResponseEntity<?> getFamilyList(@RequestParam int familyId) {
+        return ResponseEntity.ok(chartService.getFamilyList(familyId));
+    }
+
     @PostMapping("/chart")
     public ResponseEntity<?> addChartData(@RequestBody ChartDataReqDto chartDataReqDto) {
         return ResponseEntity.ok(chartService.insertChartData(chartDataReqDto));
