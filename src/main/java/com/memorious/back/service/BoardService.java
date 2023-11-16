@@ -21,7 +21,6 @@ public class BoardService {
             boardCategoryRespDtos.add(category.toCategoryRespDto());
         });
 
-        System.out.println(boardCategoryRespDtos);
         return boardCategoryRespDtos;
     }
 }

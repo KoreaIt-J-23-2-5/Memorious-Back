@@ -19,13 +19,14 @@ public class AuthController {
 
     @PostMapping("/auth/oauth2/signup")
     public ResponseEntity<?> signup(@RequestBody OAuth2SignupReqDto oAuth2SignupReqDto) {
-        return ResponseEntity.ok(authService.signInAndUp(oAuth2SignupReqDto));
+        System.out.println(oAuth2SignupReqDto);
+        return ResponseEntity.ok(authService.oAuth2Signup(oAuth2SignupReqDto));
     }
 
-    @GetMapping("/auth/oauth2/signin")
-    public ResponseEntity<?> signin(@RequestHeader(value = "Authorization") String token) {
-        return ResponseEntity.ok(token); //accessToken이 아닌 네이버에서 인증된 다른 토큰임
-    }
+//    @GetMapping("/auth/oauth2/signin")
+//    public ResponseEntity<?> signin(@RequestHeader(value = "Authorization") String token) {
+//        return ResponseEntity.ok(token); //accessToken이 아닌 네이버에서 인증된 다른 토큰임
+//    }
 
     @GetMapping("/auth/authenticate")
     public ResponseEntity<?> authenticate(@RequestHeader(value = "Authorization") String token) {

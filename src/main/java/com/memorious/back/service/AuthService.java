@@ -15,7 +15,7 @@ public class AuthService {
     private final UserMapper userMapper;
     private final JwtProvider jwtProvider;
 
-    public String signInAndUp(OAuth2SignupReqDto oAuth2SignupReqDto) {
+    public String oAuth2Signup(OAuth2SignupReqDto oAuth2SignupReqDto) {
         User user = oAuth2SignupReqDto.toEntity();
         // 유저 정보 등록 완료
 
