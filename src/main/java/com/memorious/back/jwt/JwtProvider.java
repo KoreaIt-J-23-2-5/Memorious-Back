@@ -90,15 +90,14 @@ public class JwtProvider {
         return new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
     }
 
-    public String generateAuthMailToken(String email) {
-    Date date = new Date(new Date().getTime() + 1000 * 60 * 5);
+    public String generateAuthMailToken(int familyId) {
+    Date date = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 3); //3일
 
     return Jwts.builder()
-            .setSubject("AuthenticationEmailToken")
+            .setSubject("InvitationToken")
             .setExpiration(date)
-            .claim("email", email)
+            .claim("familyId", familyId)
             .signWith(key, SignatureAlgorithm.HS256)
             .compact();
     }
-
 }

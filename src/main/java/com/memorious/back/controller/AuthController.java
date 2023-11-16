@@ -36,6 +36,7 @@ public class AuthController {
 
     @GetMapping("/account/principal")
     public ResponseEntity<?> getPrincipal() {
+
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = principalUser.getUser();
         PrincipalRespDto principalRespDto = user.toPrincipalDto();
