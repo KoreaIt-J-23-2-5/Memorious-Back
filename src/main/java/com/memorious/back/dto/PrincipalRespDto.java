@@ -13,4 +13,5 @@ public class PrincipalRespDto {
     private String provider;
     private String profileUrl;
     private String role;
+    private int familyId;
 }
