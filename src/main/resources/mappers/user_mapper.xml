@@ -31,9 +31,10 @@
             ut.oauth2_id,
             ut.provider,
             ut.role,
-            ut.family_id
+            mt.family_id
         from
             user_tb ut
+            left outer join member_tb mt on(ut.user_id = mt.user_id)
         where
             ut.email = #{email}
     </select>
