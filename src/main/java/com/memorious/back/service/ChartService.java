@@ -1,9 +1,6 @@
 package com.memorious.back.service;
 
-import com.memorious.back.dto.ChartDataReqDto;
-import com.memorious.back.dto.ChartDataRespDto;
-import com.memorious.back.dto.ChartDataUpdateReqDto;
-import com.memorious.back.dto.ChartGraphDataReqDto;
+import com.memorious.back.dto.*;
 import com.memorious.back.entity.ChartDataEntity;
 import com.memorious.back.repository.ChartMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +10,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
 public class ChartService {
     private final ChartMapper chartMapper;
+
+    public List<FamilyListRespDto> getFamilyList(int familyId) {
+        List<FamilyListRespDto> familyList = new ArrayList<>();
+        chartMapper.getFamilyList(familyId).forEach(member -> {
+            familyList.add(member.toDto());
+        });
+        System.out.println(familyList);
+        return familyList;
+    }
 
     public boolean insertChartData(ChartDataReqDto chartDataReqDto) {
         ChartDataEntity chartDataEntity = chartDataReqDto.toEntity();
@@ -42,12 +46,13 @@ public class ChartService {
     public Map<String, Map<String, List<Integer>>> getChartDataForChart(ChartGraphDataReqDto chartGraphDataReqDto) {
         if(chartGraphDataReqDto.getUserList().size() > 0){
             Map<String, Map<String, List<Integer>>> resultMap = new HashMap<>();
-            for (String user : chartGraphDataReqDto.getUserList()) {
+            for (int userId : chartGraphDataReqDto.getUserList()) {
+                String nickname = chartMapper.getUsername(userId); // user nickname찾는 쿼리 넣는 부분
                 Map<String, List<Integer>> queryMap = new HashMap<>();
-                queryMap.put("step", chartMapper.getStepDataForChart(user));
-                queryMap.put("fbs", chartMapper.getFbsDataForChart(user));
-                queryMap.put("pulse", chartMapper.getPulseDataForChart(user));
-                resultMap.put(user, queryMap);
+                queryMap.put("step", chartMapper.getStepDataForChart(userId));
+                queryMap.put("fbs", chartMapper.getFbsDataForChart(userId));
+                queryMap.put("pulse", chartMapper.getPulseDataForChart(userId));
+                resultMap.put(nickname, queryMap);
             }
             return resultMap;
         }

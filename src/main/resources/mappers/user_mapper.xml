@@ -10,6 +10,7 @@
         <result property="oauth2Id" column="oauth2_Id" />
         <result property="provider" column="provider" />
         <result property="role" column="role" />
+        <result property="familyId" column="family_id" />
     </resultMap>
     <insert id="saveUser" parameterType="com.memorious.back.entity.User">
         insert into user_tb(user_id, email, nickname, oauth2_id, provider, role)
@@ -29,9 +30,11 @@
             ut.nickname,
             ut.oauth2_id,
             ut.provider,
-            ut.role
+            ut.role,
+            mt.family_id
         from
             user_tb ut
+            left outer join member_tb mt on(ut.user_id = mt.user_id)
         where
             ut.email = #{email}
     </select>
