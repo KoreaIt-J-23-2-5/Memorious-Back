@@ -1,12 +1,11 @@
 package com.memorious.back.controller;
 
-import com.memorious.back.dto.OAuth2SigninReqDto;
+import com.memorious.back.dto.OAuth2SignupReqDto;
 import com.memorious.back.dto.PrincipalRespDto;
 import com.memorious.back.entity.User;
 import com.memorious.back.security.PrincipalUser;
 import com.memorious.back.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +18,8 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/auth/oauth2/signup")
-    public ResponseEntity<?> signup(@RequestBody OAuth2SigninReqDto oAuth2SigninReqDto) {
-        return ResponseEntity.ok(authService.signInAndUp(oAuth2SigninReqDto));
+    public ResponseEntity<?> signup(@RequestBody OAuth2SignupReqDto oAuth2SignupReqDto) {
+        return ResponseEntity.ok(authService.signInAndUp(oAuth2SignupReqDto));
     }
 
     @GetMapping("/auth/oauth2/signin")
