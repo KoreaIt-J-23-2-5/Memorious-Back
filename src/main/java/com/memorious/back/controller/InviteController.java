@@ -1,13 +1,11 @@
 package com.memorious.back.controller;
 
-import com.memorious.back.dto.TestDto;
+import com.memorious.back.dto.InviteReqDto;
 import com.memorious.back.service.MailService;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.annotation.Repeatable;
 import java.util.Map;
 
 @RestController
@@ -19,8 +17,8 @@ public class InviteController {
 
 // mail 보내는 요청에 대한 응답
 	@PostMapping("/invitation/mail")
-	public ResponseEntity<?> sendInviteMail(@RequestBody Map<String, String> emailMap) {
-		return ResponseEntity.ok(mailService.sendInvitation(emailMap.get("email"))? "전송 성공" : "전송 실패");
+	public ResponseEntity<?> sendInviteMail(@RequestBody InviteReqDto inviteReqDto) {
+		return ResponseEntity.ok(mailService.sendInvitation(inviteReqDto)? "전송 성공" : "전송 실패");
 	}
 
 	//family에 insert. 회원가입 후 진행해야함

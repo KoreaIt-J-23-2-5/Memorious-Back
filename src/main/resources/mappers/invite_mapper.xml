@@ -3,13 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.memorious.back.repository.InviteMapper">
-    <insert id="addHistory" parameterType="com.memorious.back.entity.InviteHistoryEntity">
+    <insert id="addHistory" parameterType="java.util.Map">
         insert into invitation_history_tb
         (
             invitation_id,
             invite_user_id,
             invited_email
         )
-        values(0, #{inviteUserId}, invitedEmail)
+        values(0, #{inviteUserId}, #{invitedEmail})
     </insert>
 </mapper>

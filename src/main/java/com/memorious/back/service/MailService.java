@@ -1,31 +1,35 @@
 package com.memorious.back.service;
 
-import com.memorious.back.dto.TestDto;
+import com.memorious.back.dto.InviteReqDto;
 import com.memorious.back.jwt.JwtProvider;
+import com.memorious.back.repository.InviteMapper;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.internet.MimeMessage;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class MailService {
 	private final JavaMailSender javaMailSender;
 	private final JwtProvider jwtProvider;
+	private final InviteMapper inviteMapper;
 
 	@Transactional(rollbackFor = Exception.class)
-	public boolean sendInvitation(String email) {
+	public boolean sendInvitation(InviteReqDto inviteReqDto) {
 		// todo : (1) 요청받은 이메일로 전송
-//		Claims claims = jwtProvider.getClaims(token);
-//      String toEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-//		String toEmail = "jusg0721@naver.com";
-
-		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		System.out.println("email : " + email);
+//        String userId = ;
+		System.out.println(SecurityContextHolder.getContext().getAuthentication());
+	    MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		System.out.println(inviteReqDto);
+		String email = inviteReqDto.getEmail();
 
 //        String inviteEmail = claims.get("email").toString();
 
@@ -48,7 +52,8 @@ public class MailService {
 			e.printStackTrace();
 			return false;
 		}
-		return true;
 		// todo : (2) 이메일 전송 후 invitation_history_tb 에 insert
+
+		return inviteMapper.addHistory(inviteReqDto.dtoToEntity()) > 0;
 	}
 }
