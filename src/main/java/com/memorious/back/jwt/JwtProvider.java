@@ -52,6 +52,7 @@ public class JwtProvider {
 
     public Claims getClaims(String token) {
         Claims claims = null;
+        System.out.println("getClaims() :: token >> " + token);
         try {
             claims = Jwts.parserBuilder()
                     .setSigningKey(key)
