@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(principalEntryPoint)
                 .and()
                 .oauth2Login()
-                .loginPage("http://localhost:3000/auth/oauth2/signup")
+                .loginPage("http://localhost:3000/auth/oauth2/signin")
                 .successHandler(oAuth2SuccessHandler)
                 .userInfoEndpoint()
                 .userService(principalUserDetailsService);

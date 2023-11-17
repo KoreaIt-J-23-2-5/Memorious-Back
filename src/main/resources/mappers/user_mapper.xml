@@ -13,8 +13,8 @@
         <result property="familyId" column="family_id" />
     </resultMap>
     <insert id="saveUser" parameterType="com.memorious.back.entity.User">
-        insert into user_tb(user_id, email, nickname, oauth2_id, provider, role)
-        values(0, #{email}, #{nickname}, #{oauth2Id}, #{provider}, "ROLE_USER")
+        insert into user_tb(user_id, email, nickname, oauth2_id, provider, role, family_id)
+        values(0, #{email}, #{nickname}, #{oauth2Id}, #{provider}, "ROLE_USER", 0)
     </insert>
     <update id="updateRole">
         update user_tb
