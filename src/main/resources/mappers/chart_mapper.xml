@@ -77,18 +77,17 @@
             ut.user_id,
             nickname,
             profile_url
-        FROM
-            user_tb ut
-            left outer join family_tb ft on(ft.family_id = ut.family_id)
-        where
-            ft.family_id = #{familyId};
-
 <!--        FROM-->
 <!--            user_tb ut-->
-<!--            left outer join member_tb mt on(mt.user_id = ut.user_id)-->
-<!--            left outer join family_tb ft on(ft.family_id = mt.family_id)-->
-<!--        WHERE-->
+<!--            left outer join family_tb ft on(ft.family_id = ut.family_id)-->
+<!--        where-->
 <!--            ft.family_id = #{familyId};-->
+        FROM
+            user_tb ut
+            left outer join member_tb mt on(mt.user_id = ut.user_id)
+            left outer join family_tb ft on(ft.family_id = mt.family_id)
+        WHERE
+            ft.family_id = #{familyId};
     </select>
     <select id="getUsername" parameterType="integer" resultType="string">
         SELECT
