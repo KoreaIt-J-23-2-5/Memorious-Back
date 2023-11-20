@@ -15,4 +15,17 @@
         from
         	board_category_tb
     </select>
+    <insert id="saveBoardCategory"
+            parameterType="com.memorious.back.entity.BoardCategoryEntity"
+            useGeneratedKeys="true"
+            keyProperty="boardCategoryId">
+
+        insert into board_category_tb
+        values (0, #{boardCategoryName})
+
+    </insert>
+    <insert id="saveBoardContent" parameterType="com.memorious.back.entity.BoardEntity">
+        insert into board_tb
+        values (0, #{boardTitle}, #{boardCategoryId}, #{boardContent}, #{nickname}, now())
+    </insert>
 </mapper>
