@@ -1,10 +1,14 @@
 package com.memorious.back.controller;
 
 import com.memorious.back.exception.DuplicateException;
+import com.memorious.back.exception.MailException;
 import com.memorious.back.exception.ValidException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice //예외를 처리하기 위한 컨트롤러
 public class ExceptionControllerAdvice {
@@ -20,4 +24,12 @@ public class ExceptionControllerAdvice {
         System.out.println("duplicateException 예외처리");
         return ResponseEntity.badRequest().body(duplicateException.getErrorMap());
     }
+
+	@ExceptionHandler(MailException.class)
+	public ResponseEntity<?> mailException(MailException mailException) {
+		Map<String, String> message = new HashMap<>();
+		message.put("authMail", mailException.getMessage());
+		return ResponseEntity.ok().body(message);
+	}
+
 }

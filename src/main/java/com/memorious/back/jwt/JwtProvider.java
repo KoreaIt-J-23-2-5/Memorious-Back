@@ -52,6 +52,7 @@ public class JwtProvider {
 
     public Claims getClaims(String token) {
         Claims claims = null;
+        System.out.println("getClaims() :: token >> " + token);
         try {
             claims = Jwts.parserBuilder()
                     .setSigningKey(key)
@@ -90,4 +91,14 @@ public class JwtProvider {
         return new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
     }
 
+    public String generateAuthMailToken(int familyId) {
+    Date date = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 3); //3일
+
+    return Jwts.builder()
+            .setSubject("InvitationToken")
+            .setExpiration(date)
+            .claim("familyId", familyId)
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
+    }
 }

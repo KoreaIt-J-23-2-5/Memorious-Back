@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.memorious.back.repository.InviteMapper">
+    <insert id="addHistory" parameterType="java.util.Map">
+        insert into invitation_history_tb(invitation_id, invite_user_id, invited_email, status, expiration_datetime)
+        values(0, #{userId}, #{invitedEmail}, 0, #{expirationDateTime})
+    </insert>
+
+    <insert id="insertMember">
+        insert into member_tb(member_id, user_id, family_id)
+        values(0, #{userId}, #{familyId});
+    </insert>
+
+    <update id="updateHistory" parameterType="string">
+        UPDATE invitation_history_tb
+        SET status = 1
+        WHERE invited_email = #{email}
+    </update>
+
+    <select id="getFamilyName" parameterType="map" resultType="String">
+            SELECT
+                ft.family_name
+            FROM
+                user_tb ut
+                left outer join member_tb mt on(mt.user_id = ut.user_id)
+                left outer join family_tb ft on(ft.family_id = mt.family_id)
+            WHERE
+                mt.user_id = #{userId}
+                AND ft.family_id = #{familyId};
+    </select>
+
+    <select id="getInvitationStatusByEmail" parameterType="string" resultType="java.lang.Integer">
+        SELECT
+            status
+        FROM
+            invitation_history_tb
+        WHERE
+            invited_email = #{email};
+    </select>
+
+    <select id="getFamilyIdByEmail" parameterType="string" resultType="java.lang.Integer">
+        SELECT
+            ft.family_id
+        FROM
+            invitation_history_tb ht
+            left outer join user_tb ut on(ut.user_id = ht.invite_user_id)
+            left outer join member_tb mt on(mt.user_id = ut.user_id)
+            left outer join family_tb ft on(ft.family_id = mt.family_id)
+        WHERE
+            invited_email = #{email};
+    </select>
+
+</mapper>
