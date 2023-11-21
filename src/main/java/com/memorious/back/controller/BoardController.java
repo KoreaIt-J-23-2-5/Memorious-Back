@@ -1,6 +1,7 @@
 package com.memorious.back.controller;
 
 import com.memorious.back.dto.BoardWriteReqDto;
+import com.memorious.back.dto.SearchBoardListReqDto;
 import com.memorious.back.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,18 @@ import javax.validation.Valid;
 public class BoardController {
     private final BoardService boardService;
 
+    @GetMapping("/boards/{categoryName}/{page}")
+    public ResponseEntity<?> getBoards(@PathVariable String categoryName,
+                                       @PathVariable int page,
+                                       SearchBoardListReqDto searchBoardListReqDto) {
+        System.out.println("categoryName: " + categoryName);
+        System.out.println("page: " + page);
+
+        return ResponseEntity.ok(null);
+    }
+
     @GetMapping("board/categories")
     public ResponseEntity<?> getCategories(){
-
         return ResponseEntity.ok(boardService.getBoardCategoriesAll());
     }
 
