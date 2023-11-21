@@ -9,6 +9,7 @@ import java.util.List;
 @Builder
 @Data
 public class ScheduleReqDto {
+    private int CalendarScheduleId;
     private String title;
     private String labelColor;
     private String startDate;
