@@ -2,14 +2,19 @@ package com.memorious.back.service;
 
 import com.memorious.back.dto.CalendarRespDto;
 import com.memorious.back.dto.ScheduleReqDto;
+import com.memorious.back.entity.CalendarScheduleEntity;
 import com.memorious.back.entity.ScheduleEntity;
+import com.memorious.back.entity.User;
 import com.memorious.back.repository.CalendarMapper;
+import com.memorious.back.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.writer.UpdaterMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -32,13 +37,16 @@ public class CalendarService {
         return calendarMapper.insertAttendee(map) > 0;
     }
 
-    public CalendarRespDto getYMSchedule(String year, String month) {
-        Map<String, String> dateMap = new HashMap<>();
-        dateMap.put("year", year);
-        dateMap.put("month", month);
+    @Transactional(rollbackFor = Exception.class)
+    public List<CalendarScheduleEntity> getMonthlySchedule(String month) {
+        System.out.println("month : " + month);
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = principalUser.getUser();
+        int familyId = user.getFamilyId();
+        System.out.println("familyId : " + familyId);
 
-
-        return calendarMapper.getMonthData(dateMap);
+        List<CalendarScheduleEntity> data = calendarMapper.getMonthData(familyId, month);
+        return data;
     }
 
 }

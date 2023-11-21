@@ -9,6 +9,7 @@ import java.util.List;
 @Builder
 @Data
 public class CalendarRespDto {
+    private int id;
     private int userId;
     private String title;
     private String labelColor;
@@ -23,5 +24,6 @@ public class CalendarRespDto {
     private String repeatEndDate;
     private String repeatCount;
     private String description;
+    private String nickname;
     private List<CalendarAttendeeEntity> attendees;
 }
