@@ -1,7 +1,9 @@
 package com.memorious.back.service;
 
 import com.memorious.back.dto.BoardCategoryRespDto;
+import com.memorious.back.dto.BoardListRespDto;
 import com.memorious.back.dto.BoardWriteReqDto;
+import com.memorious.back.dto.SearchBoardListReqDto;
 import com.memorious.back.entity.BoardCategoryEntity;
 import com.memorious.back.entity.BoardEntity;
 import com.memorious.back.entity.User;
@@ -14,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +34,24 @@ public class BoardService {
         });
 
         return boardCategoryRespDtos;
+    }
+
+    public List<BoardListRespDto> getBoardList(String categoryName, int page, SearchBoardListReqDto searchBoardListReqDto){
+        int index = (page - 1) * 10;
+
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("index", index);
+        paramsMap.put("categoryName", categoryName);
+        paramsMap.put("optionName", searchBoardListReqDto.getOptionName());
+        paramsMap.put("searchValue", searchBoardListReqDto.getSearchValue());
+
+        List<BoardListRespDto> boardListRespDtos = new ArrayList<>();
+
+        boardMapper.getBoardList(paramsMap).forEach(board -> {
+            boardListRespDtos.add(board.toBoardListDto());
+        });
+        System.out.println(boardListRespDtos);
+        return boardListRespDtos;
     }
 
     @Transactional(rollbackFor = Exception.class)
