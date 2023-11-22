@@ -5,6 +5,7 @@ import com.memorious.back.entity.ChartDataEntity;
 import com.memorious.back.repository.ChartMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class ChartService {
         System.out.println(familyList);
         return familyList;
     }
-
+    @Transactional(rollbackFor = Exception.class)
     public boolean insertChartData(ChartDataReqDto chartDataReqDto) {
         ChartDataEntity chartDataEntity = chartDataReqDto.toEntity();
         return chartMapper.addChartData(chartDataEntity) > 0;
@@ -39,6 +40,7 @@ public class ChartService {
         return dtoList;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean updateChartData(ChartDataUpdateReqDto chartDataUpdateReqDto) {
         return chartMapper.updateChartTableRow(chartDataUpdateReqDto.toEntity()) > 0;
     }
