@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CalendarAttendeeEntity {
-    private int calendarScheduleId;
-    private int userId;
-
-    // Getter and Setter methods
+    private int attendeeId;
+    private String attendeeNickName;
 }

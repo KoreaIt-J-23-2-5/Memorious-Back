@@ -19,16 +19,9 @@ public class CalendarController {
         return ResponseEntity.ok(calendarService.addSchedule(scheduleReqDto));
     }
 
-    @GetMapping("/calendar/{year}/{month}")
-    public ResponseEntity<?> getSchedule(
-            @PathVariable("year") String year,
-            @PathVariable("month") String month) {
+    @GetMapping("/calendar/schedule/{month}")
+    public ResponseEntity<?> getSchedule(@PathVariable String month) {
 
-        System.out.println("찍히나요");
-        System.out.println(year);
-        System.out.println(month);
-
-
-        return ResponseEntity.ok(calendarService.getYMSchedule(year, month));
+        return ResponseEntity.ok(calendarService.getMonthlySchedule(month));
     }
 }

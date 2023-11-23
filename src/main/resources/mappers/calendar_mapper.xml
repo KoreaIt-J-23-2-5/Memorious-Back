@@ -3,7 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.memorious.back.repository.CalendarMapper">
-    <resultMap id="CalendarScheduleWithAttendeesResultMap" type="com.memorious.back.dto.CalendarRespDto">
+    <resultMap id="CalendarSchedule" type="com.memorious.back.entity.CalendarScheduleEntity">
+        <id property="scheduleId" column="calendar_schedule_id" />
         <result property="userId" column="user_id"/>
         <result property="title" column="title"/>
         <result property="labelColor" column="label_color"/>
@@ -18,17 +19,14 @@
         <result property="repeatEndDate" column="repeat_end_date"/>
         <result property="repeatCount" column="repeat_count"/>
         <result property="description" column="description"/>
-
-        <!-- Attendees Collection -->
-        <collection property="attendees" ofType="com.memorious.back.dto.CalendarRespDto" resultMap="CalendarAttendeeResultMap"/>
+        <result property="nickname" column="nickname"/>
+        <collection property="attendees" javaType="list" resultMap="CalendarAttendeeResultMap" />
     </resultMap>
 
     <resultMap id="CalendarAttendeeResultMap" type="com.memorious.back.entity.CalendarAttendeeEntity">
-        <!-- Calendar Attendee Columns -->
-        <id property="calendarAttendeeId" column="calendar_attendee_id"/>
-        <result property="userId" column="attendee_user_id"/>
+        <id property="attendeeId" column="attendee_user_id"/>
+        <result property="attendeeNickName" column="attendee_nickname"/>
     </resultMap>
-
 
     <insert id="insertSchedule"
             useGeneratedKeys="true"
@@ -77,10 +75,12 @@
             (0, #{calendarScheduleId}, #{userId})
         </foreach>
     </insert>
+
     <select id="getMonthData"
             parameterType="hashmap"
-            resultMap="CalendarScheduleWithAttendeesResultMap">>
+            resultMap="CalendarSchedule">
         SELECT
+            cst.calendar_schedule_id,
             cst.user_id,
             cst.title,
             cst.label_color,
@@ -95,15 +95,21 @@
             cst.repeat_end_date,
             cst.repeat_count,
             cst.description,
+            ut.nickname,
             cat.user_id AS attendee_user_id,
+            cat_ut.nickname AS attendee_nickname
         FROM
             calendar_schedule_tb cst
             left outer join user_tb ut on(ut.user_id = cst.user_id)
             left outer join member_tb mt on(mt.user_id = ut.user_id)
             left outer join family_tb ft on(ft.family_id = mt.family_id)
-            JOIN calendar_attendee_tb cat ON cat.calendar_schedule_id = cst.calendar_schedule_id;
+            left outer join calendar_attendee_tb cat ON (cat.calendar_schedule_id = cst.calendar_schedule_id)
+            LEFT OUTER JOIN user_tb cat_ut ON (cat_ut.user_id = cat.user_id)
         WHERE
             ft.family_id = #{familyId}
-            and
+            AND (
+                (cst.start_date LIKE concat(#{month}, "%"))
+                OR (cst.end_date LIKE concat(#{month}, "%"))
+            )
     </select>
 </mapper>
