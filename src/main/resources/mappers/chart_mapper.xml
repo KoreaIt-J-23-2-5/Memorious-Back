@@ -45,7 +45,9 @@
             chart_data_tb cdt
             left outer join user_tb ut on(ut.user_id = cdt.user_id)
         WHERE
-            ut.user_id = #{userId};
+            ut.user_id = #{userId}
+        order by
+            date desc;
     </select>
 
     <select id="getFbsDataForChart" resultType="integer" parameterType="hashmap">
