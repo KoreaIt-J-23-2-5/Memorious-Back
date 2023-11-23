@@ -6,6 +6,7 @@ import com.memorious.back.entity.MemoEntity;
 import com.memorious.back.repository.MemoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class MemoService {
     private final MemoMapper memoMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean memoWrite(MemoDto memoDto) {
         MemoEntity memoEntity = memoDto.toEntity();
         return memoMapper.writeMemo(memoEntity) > 0;
@@ -35,6 +37,7 @@ public class MemoService {
         return resultMap;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean updateMemo(int index, MemoDto memoDto) {
         System.out.println(index);
         MemoEntity memoEntity = memoDto.toIndexEntity(index);
@@ -42,6 +45,7 @@ public class MemoService {
         return memoMapper.updateMemoContent(memoEntity) > 0;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteMemo(int index) {
         return memoMapper.deleteMemoContent(index) > 0;
     }
