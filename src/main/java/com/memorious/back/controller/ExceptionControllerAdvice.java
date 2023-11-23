@@ -1,5 +1,6 @@
 package com.memorious.back.controller;
 
+import com.memorious.back.exception.CustomIllegalArgumentException;
 import com.memorious.back.exception.DuplicateException;
 import com.memorious.back.exception.MailException;
 import com.memorious.back.exception.ValidException;
@@ -23,6 +24,14 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<?> duplicateException(DuplicateException duplicateException){
         System.out.println("duplicateException 예외처리");
         return ResponseEntity.badRequest().body(duplicateException.getErrorMap());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> illegalArgumentException(IllegalArgumentException illegalArgumentException){
+        Map<String, String> errorMap = new HashMap<>();
+        System.out.println("IllegalArgumentException 예외처리");
+        errorMap.put("jwtException", illegalArgumentException.getMessage());
+        return ResponseEntity.badRequest().body(errorMap);
     }
 
 	@ExceptionHandler(MailException.class)
