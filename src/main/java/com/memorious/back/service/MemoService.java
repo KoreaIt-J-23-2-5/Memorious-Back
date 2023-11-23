@@ -3,6 +3,7 @@ package com.memorious.back.service;
 import com.memorious.back.dto.MemoDto;
 import com.memorious.back.dto.MemoListRespDto;
 import com.memorious.back.entity.MemoEntity;
+import com.memorious.back.exception.ValidException;
 import com.memorious.back.repository.MemoMapper;
 import com.memorious.back.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
@@ -39,13 +40,29 @@ public class MemoService {
 
     @Transactional(rollbackFor = Exception.class)
     public boolean updateMemo(int index, MemoDto memoDto) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(Objects.equals(memoDto.getAuthor(), principalUser.getUser().getUserId())) {
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("권한오류", "당신의 메모가 아닙니다");
+            throw new ValidException(errorMap);
+        }
+
         MemoEntity memoEntity = memoDto.toIndexEntity(index);
         memoEntity.setMemoId(index);
         return memoMapper.updateMemoContent(memoEntity) > 0;
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteMemo(int index) {
+    public boolean deleteMemo(int index, int userId) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(!Objects.equals(userId, principalUser.getUser().getUserId())) {
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("권한오류", "당신의 메모가 아닙니다");
+            throw new ValidException(errorMap);
+        }
+        
         return memoMapper.deleteMemoContent(index) > 0;
     }
 
