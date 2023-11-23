@@ -48,29 +48,32 @@
             ut.user_id = #{userId};
     </select>
 
-    <select id="getFbsDataForChart" resultType="integer">
+    <select id="getFbsDataForChart" resultType="integer" parameterType="hashmap">
         SELECT
             fbs
         FROM
             chart_data_tb
         WHERE
             user_id = #{userId}
+            and date BETWEEN #{startDate} AND CURDATE()
     </select>
-    <select id="getStepDataForChart" resultType="integer">
+    <select id="getStepDataForChart" resultType="integer" parameterType="hashmap">
         SELECT
             step
         FROM
             chart_data_tb
         WHERE
             user_id = #{userId}
+            and date BETWEEN #{startDate} AND CURDATE()
     </select>
-    <select id="getPulseDataForChart" resultType="integer">
+    <select id="getPulseDataForChart" resultType="integer" parameterType="hashmap">
         SELECT
             pulse
         FROM
             chart_data_tb
         WHERE
             user_id = #{userId}
+            and date BETWEEN #{startDate} AND CURDATE()
     </select>
     <select id="getFamilyList" parameterType="integer" resultMap="familyListMap">
         SELECT

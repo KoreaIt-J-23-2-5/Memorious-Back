@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,11 +50,17 @@ public class ChartService {
         if(chartGraphDataReqDto.getUserList().size() > 0){
             Map<String, Map<String, List<Integer>>> resultMap = new HashMap<>();
             for (int userId : chartGraphDataReqDto.getUserList()) {
-                String nickname = chartMapper.getUsername(userId); // user nickname찾는 쿼리 넣는 부분
+                String nickname = chartMapper.getUsername(userId);
+                LocalDate startDate = chartGraphDataReqDto.getStartDate();
+                Map<String, Object> infoMap = new HashMap<>();
+
+                infoMap.put("startDate", startDate.toString());
+                infoMap.put("userId", userId);
+                System.out.println(infoMap);
                 Map<String, List<Integer>> queryMap = new HashMap<>();
-                queryMap.put("step", chartMapper.getStepDataForChart(userId));
-                queryMap.put("fbs", chartMapper.getFbsDataForChart(userId));
-                queryMap.put("pulse", chartMapper.getPulseDataForChart(userId));
+                queryMap.put("step", chartMapper.getStepDataForChart(infoMap));
+                queryMap.put("fbs", chartMapper.getFbsDataForChart(infoMap));
+                queryMap.put("pulse", chartMapper.getPulseDataForChart(infoMap));
                 resultMap.put(nickname, queryMap);
             }
             return resultMap;
