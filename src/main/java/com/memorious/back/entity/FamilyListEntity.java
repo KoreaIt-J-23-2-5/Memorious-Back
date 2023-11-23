@@ -14,12 +14,14 @@ public class FamilyListEntity {
     int userId;
     String nickname;
     String profileUrl;
+    boolean checked = true;
 
     public FamilyListRespDto toDto() {
         return FamilyListRespDto.builder()
                 .userId(userId)
                 .nickname(nickname)
                 .imgSrc(profileUrl)
+                .checked(checked)
                 .build();
     }
 }

@@ -9,4 +9,5 @@ public class FamilyListRespDto {
     int userId;
     String nickname;
     String imgSrc;
+    boolean checked;
 }
