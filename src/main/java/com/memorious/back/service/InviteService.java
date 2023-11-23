@@ -38,10 +38,11 @@ public class InviteService {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = principalUser.getUser();
 
-        String email = user.getEmail();
-        int userId = user.getUserId(); //초대 받는 유저Id
-        int familyId = inviteMapper.getFamilyIdByEmail(email); //초대 하는 가족Id
+        String email = user.getEmail(); //초대받는 사람의 email
+        int userId = user.getUserId(); //초대 받는 사람의 userId
+        int familyId = inviteMapper.getFamilyIdByEmail(email); //초대 하는 가족의Id
         System.out.println("familyId : " + familyId );
+
         // status : null(초대된 적 없음) 0(초대이력o, 가족소속x), 1(이미 소속완료)
         Integer inviteStatus = inviteMapper.getInvitationStatusByEmail(email);
         System.out.println("inviteStatus : " + inviteStatus);
@@ -58,6 +59,7 @@ public class InviteService {
         System.out.println("초대이력의 status 값 : " + inviteStatus);
 
         Map<String, Integer> memberMap = new HashMap<>();
+
         memberMap.put("userId", userId);
         memberMap.put("familyId", familyId);
 
@@ -66,7 +68,6 @@ public class InviteService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         //History의 초대상태 값을 1로 변경
         try {
             inviteMapper.updateHistory(email);

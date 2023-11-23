@@ -11,22 +11,23 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CalendarScheduleEntity {
-	private int calendarScheduleId;
-	 private int userId;
-	 private String title;
-	 private String labelColor;
-	 private String startDate;
-	 private String endDate;
-	 private boolean isAllDay;
-	 private String startTime;
-	 private String endTime;
-	 private String location;
-	 private String repeatType;
-	 private String repeatCycle;
-	 private String repeatEndDate;
-	 private String repeatCount;
-	 private String description;
-	 private List<CalendarAttendeeEntity> attendees;
+	private int scheduleId;
+	private int userId;
+	private String title;
+	private String labelColor;
+	private String startDate;
+	private String endDate;
+	private Boolean isAllDay;
+	private String startTime;
+	private String endTime;
+	private String location;
+	private String repeatType;
+	private String repeatCycle;
+	private String repeatEndDate;
+	private String repeatCount;
+	private String description;
+	private String nickname;
+	private List<CalendarAttendeeEntity> attendees;
 }
 
 
