@@ -47,10 +47,10 @@
         	</if>
         	<choose>
         		<when test="optionName.equals('제목')">
-        			and bt.board_title like concat("%", #{searchValue}, "%")
+        			and board_title like concat("%", #{searchValue}, "%")
         		</when>
         		<when test="optionName.equals('작성자')">
-        			and ut.nickname like concat("%", #{searchValue}, "%")
+        			and nickname like concat("%", #{searchValue}, "%")
         		</when>
         	</choose>
         order by

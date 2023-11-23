@@ -1,9 +1,13 @@
 package com.memorious.back.jwt;
 
 import com.memorious.back.entity.User;
+import com.memorious.back.exception.CustomIllegalArgumentException;
+import com.memorious.back.exception.DuplicateException;
+import com.memorious.back.exception.MailException;
 import com.memorious.back.repository.UserMapper;
 import com.memorious.back.security.PrincipalUser;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -18,6 +22,7 @@ import org.springframework.util.StringUtils;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtProvider {
@@ -37,7 +42,7 @@ public class JwtProvider {
         int userId = user.getUserId();
         String role = user.getRole();
 
-        Date expiryDate = new Date(new Date().getTime() + (1000 * 60 * 60* 24));
+        Date expiryDate = new Date(new Date().getTime() + (1000 * 60 * 60 * 24));
         return Jwts.builder()
                 .setSubject("AccessToken")
                 .setExpiration(expiryDate)
@@ -53,15 +58,23 @@ public class JwtProvider {
     public Claims getClaims(String token) {
         Claims claims = null;
         System.out.println("getClaims() :: token >> " + token);
+        Map<String, String> errorMap = new HashMap<>();
         try {
             claims = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-        }catch(Exception e) {
-            System.out.println("토큰오류");
+        } catch (Exception e) {
+
         }
+//        } catch (ExpiredJwtException e2){
+//            e2.printStackTrace();
+//        } catch(IllegalArgumentException e) {
+////            errorMap.put("no token", "토큰이 존재하지 않습니다.");
+//            throw new IllegalArgumentException("토큰 없음", e); // TODO: 500이 아닌 400으로 보내기
+//        }
+
         return claims;
     }
 
