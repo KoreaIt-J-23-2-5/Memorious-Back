@@ -1,10 +1,16 @@
 package com.memorious.back.controller;
 
+import com.memorious.back.dto.MemoDeleteReqDto;
 import com.memorious.back.dto.MemoDto;
+import com.memorious.back.security.PrincipalUser;
 import com.memorious.back.service.MemoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -28,9 +34,9 @@ public class MemoController {
         return ResponseEntity.ok(memoService.updateMemo(memoId, memoDto));
     }
 
-    @DeleteMapping("/memo/{memoId}")
-    public ResponseEntity<?> deleteMemo(@PathVariable int memoId) {
-        return ResponseEntity.ok(memoService.deleteMemo(memoId));
+    @DeleteMapping("/memo/{memoId}/{userId}")
+    public ResponseEntity<?> deleteMemo(@PathVariable int memoId, @PathVariable int userId) {
+        return ResponseEntity.ok(memoService.deleteMemo(memoId, userId));
     }
 
     @GetMapping("/memo/search")
