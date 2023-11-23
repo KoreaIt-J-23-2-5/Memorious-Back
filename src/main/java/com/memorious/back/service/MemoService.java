@@ -4,14 +4,14 @@ import com.memorious.back.dto.MemoDto;
 import com.memorious.back.dto.MemoListRespDto;
 import com.memorious.back.entity.MemoEntity;
 import com.memorious.back.repository.MemoMapper;
+import com.memorious.back.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +39,6 @@ public class MemoService {
 
     @Transactional(rollbackFor = Exception.class)
     public boolean updateMemo(int index, MemoDto memoDto) {
-        System.out.println(index);
         MemoEntity memoEntity = memoDto.toIndexEntity(index);
         memoEntity.setMemoId(index);
         return memoMapper.updateMemoContent(memoEntity) > 0;
