@@ -17,9 +17,15 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("board/categories")
-        public ResponseEntity<?> getCategories(){
-            return ResponseEntity.ok(boardService.getBoardCategoriesAll());
-        }
+    public ResponseEntity<?> getCategories(){
+        return ResponseEntity.ok(boardService.getBoardCategoriesAll());
+    }
+
+    @GetMapping("api/boards/{category}/count")
+    public ResponseEntity<?> getBoardCount(@PathVariable String categoryName, SearchBoardListReqDto searchBoardListReqDto) {
+        System.out.println("getBoardCount():: " + "categoryName >> " + categoryName + ", searchBoardListReqDto >> " + searchBoardListReqDto);
+        return ResponseEntity.ok(boardService.getBoardCount(categoryName, searchBoardListReqDto));
+    }
 
     @GetMapping("/boards/{categoryName}/{page}")
     public ResponseEntity<?> getBoards(@PathVariable String categoryName,
