@@ -15,6 +15,7 @@
     <resultMap id="familyListMap" type="com.memorious.back.entity.FamilyListEntity">
         <id property="userId" column="user_id" />
         <result property="nickname" column="nickname" />
+        <result property="profileUrl" column="profile_url" />
     </resultMap>
     <insert id="addChartData" parameterType="com.memorious.back.entity.ChartDataEntity">
         insert into
@@ -45,7 +46,9 @@
             chart_data_tb cdt
             left outer join user_tb ut on(ut.user_id = cdt.user_id)
         WHERE
-            ut.user_id = #{userId};
+            ut.user_id = #{userId}
+        order by
+            date desc;
     </select>
 
     <select id="getFbsDataForChart" resultType="integer" parameterType="hashmap">
