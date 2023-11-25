@@ -11,6 +11,7 @@
         <result property="provider" column="provider" />
         <result property="role" column="role" />
         <result property="familyId" column="family_id" />
+        <result property="profileUrl" column="profile_url" />
     </resultMap>
     <insert id="saveUser" parameterType="com.memorious.back.entity.User">
         insert into user_tb(user_id, email, nickname, oauth2_id, provider, role, family_id)
@@ -30,6 +31,7 @@
             ut.nickname,
             ut.oauth2_id,
             ut.provider,
+            ut.profile_url,
             ut.role,
             mt.family_id
         from
