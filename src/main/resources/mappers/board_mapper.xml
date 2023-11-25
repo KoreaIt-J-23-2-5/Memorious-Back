@@ -59,8 +59,6 @@
         	</choose>
         order by
         	board_id desc
-        <!--        게시글 번호 = 최신순의 역순이므로 desc 걸어서 최신순 정렬-->
-        limit #{index}, 10
     </select>
     <select id="getBoardCount" parameterType="hashmap" resultType="java.lang.Integer">
         select
