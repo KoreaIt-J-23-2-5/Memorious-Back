@@ -24,7 +24,6 @@ public class CalendarService {
 
     @Transactional(rollbackFor = Exception.class)
     public boolean addSchedule(ScheduleReqDto scheduleReqDto) {
-        System.out.println(scheduleReqDto);
         ScheduleEntity scheduleEntity = scheduleReqDto.toEntity();
         if(scheduleReqDto.getAttendee() == null || scheduleReqDto.getAttendee().toArray().length == 0) {
             return calendarMapper.insertSchedule(scheduleEntity) > 0;
@@ -33,17 +32,14 @@ public class CalendarService {
         Map<String, Object> map = new HashMap<>();
         map.put("calendarScheduleId", scheduleEntity.getCalendarScheduleId());
         map.put("userIdList", scheduleReqDto.getAttendee());
-        System.out.println(map);
         return calendarMapper.insertAttendee(map) > 0;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public List<CalendarScheduleEntity> getMonthlySchedule(String month) {
-        System.out.println("month : " + month);
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = principalUser.getUser();
         int familyId = user.getFamilyId();
-        System.out.println("familyId : " + familyId);
 
         List<CalendarScheduleEntity> data = calendarMapper.getMonthData(familyId, month);
         return data;
