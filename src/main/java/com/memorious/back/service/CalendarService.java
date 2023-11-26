@@ -12,6 +12,7 @@ import net.minidev.json.writer.UpdaterMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,5 +45,38 @@ public class CalendarService {
         List<CalendarScheduleEntity> data = calendarMapper.getMonthData(familyId, month);
         return data;
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateSchedule(ScheduleReqDto scheduleReqDto, int scheduleId) {
+        ScheduleEntity scheduleEntity = scheduleReqDto.toEntity();
+        scheduleEntity.builder()
+                .calendarScheduleId(scheduleId)
+                .build();
+
+        System.out.println(scheduleEntity);
+        if (scheduleReqDto.getAttendee() == null || scheduleReqDto.getAttendee().toArray().length == 0) {
+            // Attendee가 없는 경우 스케줄 정보만 업데이트
+            return calendarMapper.updateSchedule(scheduleEntity) > 0;
+        }
+
+        calendarMapper.updateSchedule(scheduleEntity);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("calendarScheduleId", scheduleId);
+        map.put("userIdList", scheduleReqDto.getAttendee());
+
+        // 기존 Attendee 정보 삭제 후 새로운 Attendee 정보 추가
+        calendarMapper.deleteAttendee(scheduleId);
+        return calendarMapper.insertAttendee(map) > 0;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteSchedule(int scheduleId) {
+        calendarMapper.deleteAttendee(scheduleId);
+        return calendarMapper.deleteSchedule(scheduleId) > 0;
+
+    }
+
+
 
 }
