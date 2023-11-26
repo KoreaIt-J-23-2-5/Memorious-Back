@@ -13,4 +13,7 @@ public interface CalendarMapper {
     public int insertSchedule(ScheduleEntity scheduleEntity);
     public int insertAttendee(Map<String, Object> map);
     public List<CalendarScheduleEntity> getMonthData(int familyId, String month);
+    public int updateSchedule(ScheduleEntity scheduleEntity);
+    public int deleteAttendee(int scheduleId);
+    public int deleteSchedule(int scheduleId);
 }
