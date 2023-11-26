@@ -1,9 +1,6 @@
 package com.memorious.back.service;
 
-import com.memorious.back.dto.BoardCategoryRespDto;
-import com.memorious.back.dto.BoardListRespDto;
-import com.memorious.back.dto.BoardWriteReqDto;
-import com.memorious.back.dto.SearchBoardListReqDto;
+import com.memorious.back.dto.*;
 import com.memorious.back.entity.BoardCategoryEntity;
 import com.memorious.back.entity.BoardEntity;
 import com.memorious.back.entity.User;
@@ -50,18 +47,9 @@ public class BoardService {
         boardMapper.getBoardList(paramsMap).forEach(board -> {
             boardListRespDtos.add(board.toBoardListDto());
         });
-        System.out.println(boardListRespDtos);
         return boardListRespDtos;
     }
 
-    public int getBoardCount(String categoryName, SearchBoardListReqDto searchBoardListReqDto) {
-        Map<String, Object> paramsMap = new HashMap<>();
-        paramsMap.put("categoryName", categoryName);
-        paramsMap.put("optionName", searchBoardListReqDto.getOptionName());
-        paramsMap.put("searchValue", searchBoardListReqDto.getSearchValue());
-
-        return boardMapper.getBoardCount(paramsMap);
-    }
 
     @Transactional(rollbackFor = Exception.class)
     public boolean writeBoardContent(BoardWriteReqDto boardWriteReqDto){
@@ -84,5 +72,9 @@ public class BoardService {
         BoardEntity board = boardWriteReqDto.toBoardEntity(nickname);
 
         return boardMapper.saveBoardContent(board) > 0;
+    }
+
+    public BoardDetailsRespDto getBoardDetails(int boardId){
+        return boardMapper.getBoardByBoardId(boardId).toBoardDetailsDto();
     }
 }
