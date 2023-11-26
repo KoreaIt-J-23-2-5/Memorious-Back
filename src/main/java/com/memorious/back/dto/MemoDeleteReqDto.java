@@ -5,9 +5,6 @@ import lombok.Data;
 
 @Data
 @Builder
-public class FamilyListRespDto {
+public class MemoDeleteReqDto {
     int userId;
-    String nickname;
-    String imgSrc;
-    boolean checked;
 }

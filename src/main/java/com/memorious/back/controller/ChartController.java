@@ -40,6 +40,7 @@ public class ChartController {
 
     @PostMapping("/chart/graph")
     public ResponseEntity<?> getChartGraphData(@RequestBody ChartGraphDataReqDto chartGraphDataReqDto) {
+        System.out.println(chartGraphDataReqDto.getStartDate());
         return ResponseEntity.ok(chartService.getChartDataForChart(chartGraphDataReqDto));
     }
 }

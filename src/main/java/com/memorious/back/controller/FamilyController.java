@@ -19,7 +19,7 @@ public class FamilyController {
 
     @PostMapping("api/create/family")
     public ResponseEntity<?> createFamily(@Valid @RequestBody CreateFamilyDto createFamilyDto, BindingResult bindingResult) {
-        System.out.println(createFamilyDto);
+
         return ResponseEntity.ok(familyService.createFamily(createFamilyDto));
     }
 

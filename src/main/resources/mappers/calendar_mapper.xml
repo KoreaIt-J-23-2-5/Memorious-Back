@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.memorious.back.repository.CalendarMapper">
+    <resultMap id="CalendarSchedule" type="com.memorious.back.entity.CalendarScheduleEntity">
+        <id property="scheduleId" column="calendar_schedule_id" />
+        <result property="userId" column="user_id"/>
+        <result property="title" column="title"/>
+        <result property="labelColor" column="label_color"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="isAllDay" column="is_all_day"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="location" column="location"/>
+        <result property="repeatType" column="repeat_type"/>
+        <result property="repeatCycle" column="repeat_cycle"/>
+        <result property="repeatEndDate" column="repeat_end_date"/>
+        <result property="repeatCount" column="repeat_count"/>
+        <result property="description" column="description"/>
+        <result property="nickname" column="nickname"/>
+        <collection property="attendees" javaType="list" resultMap="CalendarAttendeeResultMap" />
+    </resultMap>
+
+    <resultMap id="CalendarAttendeeResultMap" type="com.memorious.back.entity.CalendarAttendeeEntity">
+        <id property="attendeeId" column="attendee_user_id"/>
+        <result property="attendeeNickName" column="attendee_nickname"/>
+    </resultMap>
+
+    <insert id="insertSchedule"
+            useGeneratedKeys="true"
+            keyProperty="calendarScheduleId"
+            parameterType="com.memorious.back.entity.ScheduleEntity">
+        INSERT INTO calendar_schedule_tb (
+            calendar_schedule_id,
+            user_id,
+            title,
+            label_color,
+            start_date,
+            end_date,
+            is_all_day,
+            start_time,
+            end_time,
+            location,
+            repeat_type,
+            repeat_cycle,
+            repeat_end_date,
+            repeat_count,
+            description
+        )
+        VALUES (
+            0,
+            #{userId},
+            #{title},
+            #{labelColor},
+            #{startDate},
+            #{endDate},
+            #{isAllDay},
+            #{startTime},
+            #{endTime},
+            #{location},
+            #{repeatType},
+            #{repeatCycle},
+            #{repeatEndDate},
+            #{repeatCount},
+            #{description}
+        )
+    </insert>
+
+    <insert id="insertAttendee" parameterType="hashmap">
+        insert into calendar_attendee_tb
+        values
+        <foreach collection="userIdList" item="userId" separator=",">
+            (0, #{calendarScheduleId}, #{userId})
+        </foreach>
+    </insert>
+
+    <select id="getMonthData"
+            parameterType="hashmap"
+            resultMap="CalendarSchedule">
+        SELECT
+            cst.calendar_schedule_id,
+            cst.user_id,
+            cst.title,
+            cst.label_color,
+            cst.start_date,
+            cst.end_date,
+            cst.is_all_day,
+            cst.start_time,
+            cst.end_time,
+            cst.location,
+            cst.repeat_type,
+            cst.repeat_cycle,
+            cst.repeat_end_date,
+            cst.repeat_count,
+            cst.description,
+            ut.nickname,
+            cat.user_id AS attendee_user_id,
+            cat_ut.nickname AS attendee_nickname
+        FROM
+            calendar_schedule_tb cst
+            left outer join user_tb ut on(ut.user_id = cst.user_id)
+            left outer join member_tb mt on(mt.user_id = ut.user_id)
+            left outer join family_tb ft on(ft.family_id = mt.family_id)
+            left outer join calendar_attendee_tb cat ON (cat.calendar_schedule_id = cst.calendar_schedule_id)
+            LEFT OUTER JOIN user_tb cat_ut ON (cat_ut.user_id = cat.user_id)
+        WHERE
+            ft.family_id = #{familyId}
+            AND (
+                (cst.start_date LIKE concat(#{month}, "%"))
+                OR (cst.end_date LIKE concat(#{month}, "%"))
+            )
+    </select>
+</mapper>

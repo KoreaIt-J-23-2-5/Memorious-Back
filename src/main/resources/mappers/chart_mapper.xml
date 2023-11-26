@@ -15,6 +15,7 @@
     <resultMap id="familyListMap" type="com.memorious.back.entity.FamilyListEntity">
         <id property="userId" column="user_id" />
         <result property="nickname" column="nickname" />
+        <result property="profileUrl" column="profile_url" />
     </resultMap>
     <insert id="addChartData" parameterType="com.memorious.back.entity.ChartDataEntity">
         insert into
@@ -45,50 +46,54 @@
             chart_data_tb cdt
             left outer join user_tb ut on(ut.user_id = cdt.user_id)
         WHERE
-            ut.user_id = #{userId};
+            ut.user_id = #{userId}
+        order by
+            date desc;
     </select>
 
-    <select id="getFbsDataForChart" resultType="integer">
+    <select id="getFbsDataForChart" resultType="integer" parameterType="hashmap">
         SELECT
             fbs
         FROM
             chart_data_tb
         WHERE
             user_id = #{userId}
+            and date BETWEEN #{startDate} AND CURDATE()
     </select>
-    <select id="getStepDataForChart" resultType="integer">
+    <select id="getStepDataForChart" resultType="integer" parameterType="hashmap">
         SELECT
             step
         FROM
             chart_data_tb
         WHERE
             user_id = #{userId}
+            and date BETWEEN #{startDate} AND CURDATE()
     </select>
-    <select id="getPulseDataForChart" resultType="integer">
+    <select id="getPulseDataForChart" resultType="integer" parameterType="hashmap">
         SELECT
             pulse
         FROM
             chart_data_tb
         WHERE
             user_id = #{userId}
+            and date BETWEEN #{startDate} AND CURDATE()
     </select>
     <select id="getFamilyList" parameterType="integer" resultMap="familyListMap">
         SELECT
             ut.user_id,
             nickname,
             profile_url
-        FROM
-            user_tb ut
-            left outer join family_tb ft on(ft.family_id = ut.family_id)
-        where
-            ft.family_id = #{familyId};
-
 <!--        FROM-->
 <!--            user_tb ut-->
-<!--            left outer join member_tb mt on(mt.user_id = ut.user_id)-->
-<!--            left outer join family_tb ft on(ft.family_id = mt.family_id)-->
-<!--        WHERE-->
+<!--            left outer join family_tb ft on(ft.family_id = ut.family_id)-->
+<!--        where-->
 <!--            ft.family_id = #{familyId};-->
+        FROM
+            user_tb ut
+            left outer join member_tb mt on(mt.user_id = ut.user_id)
+            left outer join family_tb ft on(ft.family_id = mt.family_id)
+        WHERE
+            ft.family_id = #{familyId};
     </select>
     <select id="getUsername" parameterType="integer" resultType="string">
         SELECT

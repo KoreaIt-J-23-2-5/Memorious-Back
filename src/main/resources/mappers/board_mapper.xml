@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.memorious.back.repository.BoardMapper">
+    <resultMap id="boardMap" type="com.memorious.back.entity.BoardEntity">
+        <id property="boardId" column="board_id" />
+        <result property="boardTitle" column="board_title" />
+        <result property="boardCategoryId" column="board_category_id" />
+        <result property="boardContent" column="board_content" />
+        <result property="nickname" column="nickname" />
+        <result property="createDate" column="board_create_date" />
+    </resultMap>
+    <resultMap id="boardCategoryMap" type="com.memorious.back.entity.BoardCategoryEntity">
+        <id property="boardCategoryId" column="board_category_id" />
+        <result property="boardCategoryName" column="board_category_name" />
+    </resultMap>
+
+    <select id="getBoardCategories" resultMap="boardCategoryMap">
+        select
+        	board_category_id,
+        	board_category_name
+        from
+        	board_category_tb
+    </select>
+    <select id="getBoardList" parameterType="hashmap" resultMap="boardMap" >
+        select
+        	board_id,
+        	board_title,
+        	nickname,
+        	board_create_date
+        from
+        	board_tb bt
+        where
+        	1 = 1
+
+<!--        all이 아니면 특정 카테고리명에 따라 검색-->
+        	<if test="!categoryName.equals('all')">
+        		and board_category_id = (
+        			select
+        				board_category_id
+        			from
+        				board_category_tb
+        			where
+        				board_category_name=#{categoryName}
+        		)
+        	</if>
+        	<choose>
+                <when test="optionName.equals('전체')">
+                    and (board_title like concat("%", #{searchValue}, "%")
+                    or nickname like concat("%", #{searchValue}, "%"))
+                </when>
+        		<when test="optionName.equals('제목')">
+        			and board_title like concat("%", #{searchValue}, "%")
+        		</when>
+        		<when test="optionName.equals('작성자')">
+        			and nickname like concat("%", #{searchValue}, "%")
+        		</when>
+        	</choose>
+        order by
+        	board_id desc
+        <!--        게시글 번호 = 최신순의 역순이므로 desc 걸어서 최신순 정렬-->
+        limit #{index}, 10
+    </select>
+    <select id="getBoardCount" parameterType="hashmap" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            board_tb
+        where
+            1 = 1
+            <if test="!categoryName.equals('all')">
+                and board_category_id = (
+                    select board_category_id
+                    from board_category_tb
+                    where board_category_name=#{categoryName}
+                )
+            </if>
+            <choose>
+                <when test="optionName.equals('전체')">
+                    and (board_title like concat("%", #{searchValue}, "%")
+                    or nickname like concat("%", #{searchValue}, "%"))
+                </when>
+                <when test="optionName.equals('제목')">
+                    and bt.board_title like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('작성자')">
+                    and ut.nickname like concat("%", #{searchValue}, "%")
+                </when>
+            </choose>
+    </select>
+    <insert id="saveBoardCategory"
+            parameterType="com.memorious.back.entity.BoardCategoryEntity"
+            useGeneratedKeys="true"
+            keyProperty="boardCategoryId">
+
+        insert into board_category_tb
+        values (0, #{boardCategoryName})
+
+    </insert>
+    <insert id="saveBoardContent" parameterType="com.memorious.back.entity.BoardEntity">
+        insert into board_tb
+        values (0, #{boardTitle}, #{boardCategoryId}, #{boardContent}, #{nickname}, now())
+    </insert>
+</mapper>
