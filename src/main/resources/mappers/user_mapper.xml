@@ -24,6 +24,13 @@
         where
             user_id = #{userId}
     </update>
+    <update id="updateProfileUrl" parameterType="com.memorious.back.entity.User">
+        update user_tb
+        set
+        profile_url = #{profileUrl}
+        where
+        email = #{email}
+    </update>
     <select id="findUserByEmail" resultMap="userMap">
         select
             ut.user_id,

@@ -10,4 +10,5 @@ public interface UserMapper {
     public Integer checkDuplicate(User user);
     public int saveUser(User user);
     public int updateRole(int userId);
+    public int updateProfileUrl(User user);
 }
