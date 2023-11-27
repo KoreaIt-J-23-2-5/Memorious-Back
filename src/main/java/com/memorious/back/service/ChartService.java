@@ -23,7 +23,6 @@ public class ChartService {
         chartMapper.getFamilyList(familyId).forEach(member -> {
             familyList.add(member.toDto());
         });
-        System.out.println(familyList);
         return familyList;
     }
     @Transactional(rollbackFor = Exception.class)

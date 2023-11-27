@@ -25,15 +25,23 @@ public class CalendarService {
 
     @Transactional(rollbackFor = Exception.class)
     public boolean addSchedule(ScheduleReqDto scheduleReqDto) {
+        System.out.println("scheduleReqDto = " + scheduleReqDto);;
         ScheduleEntity scheduleEntity = scheduleReqDto.toEntity();
+        System.out.println("scheduleEntity = " + scheduleEntity);
+        // 참석자가 없으면 바로 insert
         if(scheduleReqDto.getAttendee() == null || scheduleReqDto.getAttendee().toArray().length == 0) {
             return calendarMapper.insertSchedule(scheduleEntity) > 0;
         }
+
+        // 참석자가 있다면 일정 따로, 참석자(반복) 따로 insert
         calendarMapper.insertSchedule(scheduleEntity);
         Map<String, Object> map = new HashMap<>();
         map.put("calendarScheduleId", scheduleEntity.getCalendarScheduleId());
         map.put("userIdList", scheduleReqDto.getAttendee());
         return calendarMapper.insertAttendee(map) > 0;
+
+
+        
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -53,7 +61,6 @@ public class CalendarService {
                 .calendarScheduleId(scheduleId)
                 .build();
 
-        System.out.println(scheduleEntity);
         if (scheduleReqDto.getAttendee() == null || scheduleReqDto.getAttendee().toArray().length == 0) {
             // Attendee가 없는 경우 스케줄 정보만 업데이트
             return calendarMapper.updateSchedule(scheduleEntity) > 0;
@@ -76,7 +83,4 @@ public class CalendarService {
         return calendarMapper.deleteSchedule(scheduleId) > 0;
 
     }
-
-
-
 }
