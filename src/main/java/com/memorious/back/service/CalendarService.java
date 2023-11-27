@@ -31,18 +31,10 @@ public class CalendarService {
     public boolean addSchedule(ScheduleReqDto scheduleReqDto) {
         ScheduleEntity scheduleEntity = scheduleReqDto.toEntity();
 
-        System.out.println(scheduleReqDto);
-
         String repeatType = scheduleReqDto.getRepeatCycle();
         String repeatEndType = scheduleReqDto.getRepeatType();
         int repeatCount = scheduleReqDto.getRepeatCount();
         int repeatLimitYear = 5;
-
-        String startDate = scheduleReqDto.getStartDate();
-        LocalDate startDateObj = LocalDate.parse(startDate, DateTimeFormatter.ISO_LOCAL_DATE);
-
-        String endDate = scheduleReqDto.getEndDate();
-        LocalDate endDateObj = LocalDate.parse(endDate, DateTimeFormatter.ISO_LOCAL_DATE);
 
         switch (repeatType) {
             case "":
@@ -51,14 +43,12 @@ public class CalendarService {
             case "month":
                 switch (repeatEndType) {
                     case "none":
-                        //for : 1개월 주기로 repeatCount 만큼 반복
                         repeatCount = 12 * repeatLimitYear;
                         return calendarRepeatUtil.monthRepeatCount(scheduleReqDto, repeatCount);
                     case "count":
                         repeatCount = scheduleReqDto.getRepeatCount();
                         return calendarRepeatUtil.monthRepeatCount(scheduleReqDto, repeatCount);
                     case "date":
-                        //for : 1개월 주기로 repeatCount회 만큼
                         String repeatEndDate = scheduleReqDto.getRepeatEndDate();
                         LocalDate repeatEndDateObj = LocalDate.parse(repeatEndDate, DateTimeFormatter.ISO_LOCAL_DATE);
                         return calendarRepeatUtil.monthRepeatDate(scheduleReqDto);
@@ -67,16 +57,11 @@ public class CalendarService {
             case "year":
                 switch (repeatEndType) {
                     case "none":
-                        //for : 1년주기로 n회 반복
                         repeatCount = repeatLimitYear;
                         return calendarRepeatUtil.yearRepeatCount(scheduleReqDto, repeatCount);
-
                     case "count":
-                        //for : 1년 주기로 repeatCount회 만큼
                         return calendarRepeatUtil.yearRepeatCount(scheduleReqDto, repeatCount);
-
                     case "date":
-                        //while : repeatEndDate 전까지 1년마다 반복
                         return calendarRepeatUtil.yearRepeatDate(scheduleReqDto);
                     default: return false;
                 }
@@ -96,20 +81,17 @@ public class CalendarService {
 
                     switch (repeatEndType) {
                         case "none":
-                            System.out.println("none3");
+                            String startDate = scheduleReqDto.getStartDate();
+                            LocalDate startDateObj = LocalDate.parse(startDate, DateTimeFormatter.ISO_LOCAL_DATE);
                             LocalDate lastDate = startDateObj.plusYears(repeatLimitYear);
                             return calendarRepeatUtil.dayRepeatDate(scheduleReqDto, lastDate, repeatCycle);
 
                         case "date":
-                            System.out.println("date3");
-                            //while : endDate 전까지 cycle 주기로 반복
                             String repeatEndDate = scheduleReqDto.getRepeatEndDate();
                             LocalDate repeatEndDateObj = LocalDate.parse(repeatEndDate, DateTimeFormatter.ISO_LOCAL_DATE);
                             return calendarRepeatUtil.dayRepeatDate(scheduleReqDto, repeatEndDateObj, repeatCycle);
 
                         case "count":
-                            System.out.println("count3");
-                            //for : cycle주기로 repeatCount회 만큼
                             return calendarRepeatUtil.dayRepeatCount(scheduleReqDto, repeatCount, repeatCycle);
                         default: return false;
                     }
