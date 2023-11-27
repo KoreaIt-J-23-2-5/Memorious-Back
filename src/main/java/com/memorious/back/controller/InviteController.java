@@ -21,7 +21,7 @@ public class InviteController {
 // mail 보내는 요청에 대한 응답
 	@PostMapping("/invitation/mail")
 	public ResponseEntity<?> sendInviteMail(@RequestBody Map<String, String> inviteMailMap) {
-		return ResponseEntity.ok(mailService.sendInvitation(inviteMailMap)? "전송 성공" : "전송 실패");
+		return ResponseEntity.ok(mailService.sendInvitation(inviteMailMap));
 	}
 
 	@GetMapping("/invitation/history")

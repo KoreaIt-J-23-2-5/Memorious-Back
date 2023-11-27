@@ -21,7 +21,16 @@ public class CalendarController {
 
     @GetMapping("/calendar/schedule/{month}")
     public ResponseEntity<?> getSchedule(@PathVariable String month) {
-
         return ResponseEntity.ok(calendarService.getMonthlySchedule(month));
+    }
+
+    @PutMapping("/calendar/schedule/{scheduleId}")
+    public ResponseEntity<?> updateSchedule(@RequestBody ScheduleReqDto scheduleReqDto, @PathVariable int scheduleId) {
+        return ResponseEntity.ok(calendarService.updateSchedule(scheduleReqDto, scheduleId));
+    }
+
+    @DeleteMapping("/calendar/schedule/{scheduleId}")
+    public ResponseEntity<?> deleteSchedule(@PathVariable int scheduleId) {
+        return ResponseEntity.ok(calendarService.deleteSchedule(scheduleId));
     }
 }
