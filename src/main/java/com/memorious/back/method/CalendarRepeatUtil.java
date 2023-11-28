@@ -67,14 +67,14 @@ public class CalendarRepeatUtil {
         LocalDate repeatEndDateObj = LocalDate.parse(repeatEndDate, DateTimeFormatter.ISO_LOCAL_DATE);
 
         int i = 0;
-        while (startDateObj.isBefore(repeatEndDateObj)) {
+        do {
             startDateObj = startDateObj.plusMonths(i);
             scheduleReqDto.setStartDate(startDateObj.toString());
             endDateObj = endDateObj.plusMonths(i);
             scheduleReqDto.setEndDate(endDateObj.toString());
             addSchedule(scheduleReqDto);
             i++;
-        }
+        } while (startDateObj.isBefore(repeatEndDateObj));
         return true;
     }
 
@@ -103,14 +103,14 @@ public class CalendarRepeatUtil {
         LocalDate repeatEndDateObj = LocalDate.parse(repeatEndDate, DateTimeFormatter.ISO_LOCAL_DATE);
 
         int i = 0;
-        while (startDateObj.isBefore(repeatEndDateObj)) {
+        do {
             startDateObj = startDateObj.plusYears(i);
             scheduleReqDto.setStartDate(startDateObj.toString());
             endDateObj = endDateObj.plusYears(i);
             scheduleReqDto.setEndDate(endDateObj.toString());
             addSchedule(scheduleReqDto);
             i++;
-        }
+        } while (startDateObj.isBefore(repeatEndDateObj));
         return true;
     }
 
@@ -120,15 +120,13 @@ public class CalendarRepeatUtil {
         String endDate = scheduleReqDto.getEndDate();
         LocalDate endDateObj = LocalDate.parse(endDate, DateTimeFormatter.ISO_LOCAL_DATE);
 
-        addSchedule(scheduleReqDto);
-
-        while(startDateObj.isBefore(lastDate)) {
+        do {
+            addSchedule(scheduleReqDto);
             startDateObj = startDateObj.plusDays( repeatCycle);
             scheduleReqDto.setStartDate(startDateObj.toString());
             endDateObj = endDateObj.plusDays(repeatCycle);
             scheduleReqDto.setEndDate(endDateObj.toString());
-            addSchedule(scheduleReqDto);
-        }
+        } while(startDateObj.isBefore(lastDate));
         return true;
     }
 
@@ -141,7 +139,6 @@ public class CalendarRepeatUtil {
         for(int i=0; i< repeatCount; i++) {
             LocalDate addDaysToStart = startDateObj.plusDays( i * repeatCycle);
             LocalDate addDaysToEnd = endDateObj.plusDays( i * repeatCycle);
-            System.out.println(addDaysToStart);
             scheduleReqDto.setStartDate(addDaysToStart.toString());
             scheduleReqDto.setEndDate(addDaysToEnd.toString());
             addSchedule(scheduleReqDto);
