@@ -34,10 +34,8 @@ public class BoardService {
     }
 
     public List<BoardListRespDto> getBoardList(String categoryName, int page, SearchBoardListReqDto searchBoardListReqDto){
-        int index = (page - 1) * 10;
 
         Map<String, Object> paramsMap = new HashMap<>();
-        paramsMap.put("index", index);
         paramsMap.put("categoryName", categoryName);
         paramsMap.put("optionName", searchBoardListReqDto.getOptionName());
         paramsMap.put("searchValue", searchBoardListReqDto.getSearchValue());
@@ -55,7 +53,7 @@ public class BoardService {
     public boolean writeBoardContent(BoardWriteReqDto boardWriteReqDto){
         BoardCategoryEntity boardCategory = null;
 
-        if(boardWriteReqDto.getCategoryId() == 0){
+        if (boardWriteReqDto.getCategoryId() == 0){
             //db에 카테고리 id가 없는 상태
             //카테고리를 새로 추가해야됨
             System.out.println("카테고리 id가 0");
@@ -74,7 +72,23 @@ public class BoardService {
         return boardMapper.saveBoardContent(board) > 0;
     }
 
-    public BoardDetailsRespDto getBoardDetails(int boardId){
+    public BoardDetailsRespDto getBoardDetails(int boardId) {
+
         return boardMapper.getBoardByBoardId(boardId).toBoardDetailsDto();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean editBoard(int boardId, BoardEditReqDto boardEditReqDto) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String oAuth2Id = principalUser.getName();
+        String nickname = userMapper.findUserByOAuth2Id(oAuth2Id).getNickname();
+        BoardEntity board = boardEditReqDto.toBoardEntity(nickname);
+        board.setBoardId(boardId);
+        return boardMapper.updateBoard(board) > 0;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteBoard(int boardId) {
+        return boardMapper.deleteBoard(boardId) > 0;
     }
 }

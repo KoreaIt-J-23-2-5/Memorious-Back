@@ -103,4 +103,20 @@
         insert into board_tb
         values (0, #{boardTitle}, #{boardCategoryId}, #{boardContent}, #{nickname}, now())
     </insert>
+
+    <update id="updateBoard">
+            update board_tb
+            set
+                board_title = #{boardTitle},
+                board_content = #{boardContent},
+                board_category_id = #{boardCategoryId}
+            where
+                board_id = #{boardId}
+    </update>
+
+    <delete id="deleteBoard">
+        delete
+        from board_tb
+        where board_id = #{boardId}
+    </delete>
 </mapper>

@@ -15,4 +15,6 @@ public interface BoardMapper {
     public int saveBoardContent(BoardEntity boardEntity);
     public List<BoardEntity> getBoardList(Map<String, Object> paramsMap);
     public BoardDetailsEntity getBoardByBoardId(int boardId);
+    public int updateBoard(BoardEntity boardEntity);
+    public int deleteBoard(int boardId);
 }
