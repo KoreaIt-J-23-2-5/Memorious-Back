@@ -1,5 +1,6 @@
 package com.memorious.back.controller;
 
+import com.memorious.back.dto.BoardEditReqDto;
 import com.memorious.back.dto.BoardWriteReqDto;
 import com.memorious.back.dto.SearchBoardListReqDto;
 import com.memorious.back.service.BoardService;
@@ -16,31 +17,47 @@ import javax.validation.Valid;
 public class BoardController {
     private final BoardService boardService;
 
+    // 카테고리 리스트 조회
     @GetMapping("board/categories")
     public ResponseEntity<?> getCategories(){
         return ResponseEntity.ok(boardService.getBoardCategoriesAll());
     }
 
-    @GetMapping("api/boards/{category}/count")
-    public ResponseEntity<?> getBoardCount(@PathVariable String categoryName, SearchBoardListReqDto searchBoardListReqDto) {
-        System.out.println("getBoardCount():: " + "categoryName >> " + categoryName + ", searchBoardListReqDto >> " + searchBoardListReqDto);
-        return ResponseEntity.ok(boardService.getBoardCount(categoryName, searchBoardListReqDto));
-    }
-
+    //게시글 목록 조회
     @GetMapping("/boards/{categoryName}/{page}")
     public ResponseEntity<?> getBoards(@PathVariable String categoryName,
                                        @PathVariable int page,
                                        SearchBoardListReqDto searchBoardListReqDto) {
-        System.out.println("categoryName: " + categoryName);
-        System.out.println("page: " + page);
-        System.out.println(searchBoardListReqDto);
 
         return ResponseEntity.ok(boardService.getBoardList(categoryName, page, searchBoardListReqDto));
     }
+    // 게시글 수정
+    @PutMapping("/board/{boardId}")
+    public ResponseEntity<?> editBoard(@PathVariable int boardId,
+                                        @Valid @RequestBody BoardEditReqDto boardEditReqDto,
+                                        BindingResult bindingResult) {
 
+        return ResponseEntity.ok(boardService.editBoard(boardId, boardEditReqDto));
+    }
+
+    // 게시글 쓰기
     @PostMapping("board/content")
     public ResponseEntity<?> writeBoard(@Valid @RequestBody BoardWriteReqDto boardWriteReqDto, BindingResult bindingResult) {
-        System.out.println("boardWriteReqDto : " + boardWriteReqDto);
         return ResponseEntity.ok(boardService.writeBoardContent(boardWriteReqDto));
     }
+
+    // 게시글 상세 조회
+    @GetMapping("board/{boardId}")
+    public ResponseEntity<?> getBoardDetails(@PathVariable int boardId) {
+
+        return ResponseEntity.ok(boardService.getBoardDetails(boardId));
+    }
+
+    // 게시글 삭제
+    @DeleteMapping("board/{boardId}")
+    public ResponseEntity<?> deleteBoard(@PathVariable int boardId) {
+
+        return ResponseEntity.ok(boardService.deleteBoard(boardId));
+    }
 }
+
