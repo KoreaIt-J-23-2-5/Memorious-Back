@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Mapper
 public interface BoardMapper {
-    public List<BoardCategoryEntity> getBoardCategories();
+    public List<BoardCategoryEntity> getBoardCategories(int familyId);
     public int saveBoardCategory(BoardCategoryEntity boardCategory);
     public int saveBoardContent(BoardEntity boardEntity);
     public List<BoardEntity> getBoardList(Map<String, Object> paramsMap);

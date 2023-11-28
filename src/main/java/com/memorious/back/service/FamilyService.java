@@ -24,19 +24,16 @@ public class FamilyService {
         try {
             PrincipalUser principalUser = ((PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
             int userId = principalUser.getUser().getUserId();
-            System.out.println("userId : " + userId);
             FamilyEntity familyEntity = createFamilyDto.toFamilyEntity(userId);
             familyMapper.saveFamily(familyEntity);
 
             // member_tb에도 추가
             int familyId = familyEntity.getFamilyId();
-            System.out.println("familyId : " + familyId);
 
             Map<String, Integer> map = new HashMap<>();
             map.put("userId", userId);
             map.put("familyId", familyId);
             familyMapper.saveMember(map);
-//            familyMapper.saveMember(memberMap);
             userMapper.updateRole(userId);
 
         } catch(Exception e) {
