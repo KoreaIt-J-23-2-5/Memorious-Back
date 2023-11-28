@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Queue;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class FamilyController {
 
     @PostMapping("api/create/family")
     public ResponseEntity<?> createFamily(@Valid @RequestBody CreateFamilyDto createFamilyDto, BindingResult bindingResult) {
-
+        System.out.println("createFamily");
         return ResponseEntity.ok(familyService.createFamily(createFamilyDto));
     }
 

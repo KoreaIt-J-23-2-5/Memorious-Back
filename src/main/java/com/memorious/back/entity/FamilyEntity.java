@@ -13,4 +13,5 @@ public class FamilyEntity {
     private int familyId;
     private String familyName;
     private String profileUrl;
+    private int ownerId;
 }

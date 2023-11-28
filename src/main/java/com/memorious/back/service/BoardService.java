@@ -65,8 +65,7 @@ public class BoardService {
             boardWriteReqDto.setCategoryId(boardCategory.getBoardCategoryId());
         }
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String oAuth2Id = principalUser.getName();
-        String nickname = userMapper.findUserByOAuth2Id(oAuth2Id).getNickname();
+        String nickname = principalUser.getUser().getNickname();
         BoardEntity board = boardWriteReqDto.toBoardEntity(nickname);
 
         return boardMapper.saveBoardContent(board) > 0;

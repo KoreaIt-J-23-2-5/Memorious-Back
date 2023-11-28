@@ -19,7 +19,6 @@ public class AuthController {
 
     @PostMapping("/auth/oauth2/signup")
     public ResponseEntity<?> signup(@RequestBody OAuth2SignupReqDto oAuth2SignupReqDto) {
-        System.out.println(oAuth2SignupReqDto);
         return ResponseEntity.ok(authService.oAuth2Signup(oAuth2SignupReqDto));
     }
 
