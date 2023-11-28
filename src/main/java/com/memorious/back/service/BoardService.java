@@ -28,12 +28,10 @@ public class BoardService {
 
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int familyId = principalUser.getUser().getFamilyId();
-        System.out.println("categories familyId: " + familyId);
 
         boardMapper.getBoardCategories(familyId).forEach(category -> {
             boardCategoryRespDtos.add(category.toCategoryRespDto());
         });
-        System.out.println("boardCategoryRespDtos >> " + boardCategoryRespDtos);
 
         return boardCategoryRespDtos;
     }
@@ -41,7 +39,6 @@ public class BoardService {
     public List<BoardListRespDto> getBoardList(String categoryName, int page, SearchBoardListReqDto searchBoardListReqDto){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int familyId = principalUser.getUser().getFamilyId();
-        System.out.println("getBoardList >> familyId : " + familyId);
 
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put("categoryName", categoryName);
@@ -53,7 +50,6 @@ public class BoardService {
         boardMapper.getBoardList(paramsMap).forEach(board -> {
             boardListRespDtos.add(board.toBoardListDto());
         });
-        System.out.println("boardListRespDtos >> " + boardListRespDtos);
         return boardListRespDtos;
     }
 
@@ -63,8 +59,6 @@ public class BoardService {
         BoardCategoryEntity boardCategory = null;
 
         if (boardWriteReqDto.getCategoryId() == 0){
-            //db에 카테고리 id가 없는 상태
-            //카테고리를 새로 추가해야됨
             boardCategory = BoardCategoryEntity.builder()
                     .boardCategoryName(boardWriteReqDto.getCategoryName()) //카테고리 이름만 set 해주면 됨
                     .build();

@@ -38,49 +38,46 @@
         	left outer join member_tb mt on(mt.user_id = ut.user_id)
         	left outer join family_tb ft on(ft.family_id = mt.family_id)
         where
-        	ft.family_id = #{familyId};
+        	ft.family_id = #{familyId}
+        group by
+            bct.board_category_id;
     </select>
 
     <select id="getBoardList" parameterType="hashmap" resultMap="boardMap" >
-        select
-        	board_id,
-        	board_title,
-        	bt.nickname,
-        	board_create_date
-        from
-            board_tb bt
-        	left outer join user_tb ut on(ut.nickname = bt.nickname)
-        	left outer join member_tb mt on(mt.user_id = ut.user_id)
-        	left outer join family_tb ft on(ft.family_id = mt.family_id)
-        where
-        	ft.family_id = #{familyId}
+            select
+               bt.board_id,
+               bt.board_title,
+               bt.nickname,
+               bt.board_create_date
+            from
+                board_category_tb bct
+                left outer join board_tb bt on(bt.board_category_id=bct.board_category_id)
+                left outer join user_tb ut on(ut.nickname = bt.nickname)
+                left outer join member_tb mt on(mt.user_id = ut.user_id)
+                left outer join family_tb ft on(ft.family_id = mt.family_id)
+            where
+               ft.family_id = #{familyId}
 
-<!--        all이 아니면 특정 카테고리명에 따라 검색-->
-        	<if test="!categoryName.equals('all')">
-        		and board_category_id = (
-        			select
-        				board_category_id
-        			from
-        				board_category_tb
-        			where
-        				board_category_name=#{categoryName}
-        		)
-        	</if>
-        	<choose>
-                <when test="optionName.equals('전체')">
-                    and (board_title like concat("%", #{searchValue}, "%")
-                    or bt.nickname like concat("%", #{searchValue}, "%"))
-                </when>
-        		<when test="optionName.equals('제목')">
-        			and board_title like concat("%", #{searchValue}, "%")
-        		</when>
-        		<when test="optionName.equals('작성자')">
-        			and bt.nickname like concat("%", #{searchValue}, "%")
-        		</when>
-        	</choose>
-        order by
-        	board_id desc
-    </select>
+    <!--        all이 아니면 특정 카테고리명에 따라 검색-->
+               <if test="!categoryName.equals('all')">
+                    and bct.board_category_name=#{categoryName}
+               </if>
+               <choose>
+                    <when test="optionName.equals('전체')">
+                        and (board_title like concat("%", #{searchValue}, "%")
+                        or bt.nickname like concat("%", #{searchValue}, "%"))
+                    </when>
+                  <when test="optionName.equals('제목')">
+                     and board_title like concat("%", #{searchValue}, "%")
+                  </when>
+                  <when test="optionName.equals('작성자')">
+                     and bt.nickname like concat("%", #{searchValue}, "%")
+                  </when>
+               </choose>
+            order by
+               board_id desc
+        </select>
+
     <!--게시물 상세 조회-->
     <select id="getBoardByBoardId" resultMap="boardDetailsMap">
         select
