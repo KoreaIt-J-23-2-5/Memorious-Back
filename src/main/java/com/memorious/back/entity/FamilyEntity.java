@@ -1,5 +1,6 @@
 package com.memorious.back.entity;
 
+import com.memorious.back.dto.FamilyRespDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,4 +15,13 @@ public class FamilyEntity {
     private String familyName;
     private String profileUrl;
     private int ownerId;
+
+    public FamilyRespDto toDto() {
+        return FamilyRespDto.builder()
+                .familyId(familyId)
+                .familyName(familyName)
+                .profileUrl(profileUrl)
+                .ownerId(ownerId)
+                .build();
+    }
 }

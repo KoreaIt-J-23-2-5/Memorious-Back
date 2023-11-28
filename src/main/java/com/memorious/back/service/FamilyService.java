@@ -1,7 +1,10 @@
 package com.memorious.back.service;
 
 import com.memorious.back.dto.CreateFamilyDto;
+import com.memorious.back.dto.FamilyListRespDto;
+import com.memorious.back.dto.FamilyRespDto;
 import com.memorious.back.entity.FamilyEntity;
+import com.memorious.back.entity.FamilyListEntity;
 import com.memorious.back.repository.FamilyMapper;
 import com.memorious.back.repository.UserMapper;
 import com.memorious.back.security.PrincipalUser;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -45,5 +49,14 @@ public class FamilyService {
         }
         return true;
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public FamilyRespDto getFamilyInfo(int familyId) {
+        System.out.println(familyId);
+        FamilyEntity familyInfo = familyMapper.getFamily(familyId);
+        System.out.println(familyInfo);
+        return familyInfo.toDto();
+    }
+
 
 }
