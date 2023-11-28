@@ -57,7 +57,6 @@ public class JwtProvider {
 
     public Claims getClaims(String token) {
         Claims claims = null;
-        System.out.println("getClaims() :: token >> " + token);
         Map<String, String> errorMap = new HashMap<>();
         try {
             claims = Jwts.parserBuilder()
