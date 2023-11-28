@@ -26,9 +26,7 @@ public class InviteService {
         if(claims == null) {
             throw new MailException("만료된 인증 요청입니다.");
         }
-        System.out.println("claims" +  claims);
 //        int familyId = claims.get("familyId");
-//        System.out.println(familyId);
 
         return true;
     }
@@ -41,14 +39,12 @@ public class InviteService {
         String email = user.getEmail(); //초대받는 사람의 email
         int userId = user.getUserId(); //초대 받는 사람의 userId
         int familyId = inviteMapper.getFamilyIdByEmail(email); //초대 하는 가족의Id
-        System.out.println("familyId : " + familyId );
 
         // status : null(초대된 적 없음) 0(초대이력o, 가족소속x), 1(이미 소속완료)
         Integer inviteStatus = inviteMapper.getInvitationStatusByEmail(email);
-        System.out.println("inviteStatus : " + inviteStatus);
 
         if(inviteStatus == null) {
-            throw new MailException("초대된 값이 없습니다.");
+            throw new MailException("초대된 적이 없습니다.");
 //            return false;
         }
 
@@ -56,8 +52,8 @@ public class InviteService {
             throw new MailException("이미 초대가 완료되었습니다.");
 //            return false;
         }
-        System.out.println("초대이력의 status 값 : " + inviteStatus);
 
+        //member tb에 insert
         Map<String, Integer> memberMap = new HashMap<>();
 
         memberMap.put("userId", userId);

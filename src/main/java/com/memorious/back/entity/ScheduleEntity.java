@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ScheduleEntity {
-    private int CalendarScheduleId;
+    private int calendarScheduleId;
     private int userId;
     private String title;
     private String labelColor;

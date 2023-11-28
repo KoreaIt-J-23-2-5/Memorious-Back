@@ -76,6 +76,40 @@
         </foreach>
     </insert>
 
+    <update id="updateSchedule" parameterType="com.memorious.back.entity.ScheduleEntity">
+        UPDATE calendar_schedule_tb
+        SET
+            user_id = #{userId},
+            title = #{title},
+            label_color = #{labelColor},
+            start_date = #{startDate},
+            end_date = #{endDate},
+            is_all_day = #{isAllDay},
+            start_time = #{startTime},
+            end_time = #{endTime},
+            location = #{location},
+            repeat_type = #{repeatType},
+            repeat_cycle = #{repeatCycle},
+            repeat_end_date = #{repeatEndDate},
+            repeat_count = #{repeatCount},
+            description = #{description}
+        WHERE
+        calendar_schedule_id = #{calendarScheduleId}
+    </update>
+    <delete id="deleteSchedule" parameterType="integer">
+        DELETE FROM calendar_schedule_tb
+        WHERE
+        calendar_schedule_id = #{calendarScheduleId}
+    </delete>
+
+    <delete id="deleteAttendee" parameterType="integer">
+        DELETE FROM calendar_attendee_tb
+        WHERE
+            calendar_schedule_id = #{calendarScheduleId}
+    </delete>
+
+
+
     <select id="getMonthData"
             parameterType="hashmap"
             resultMap="CalendarSchedule">

@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @Data
 public class ScheduleReqDto {
-    private int CalendarScheduleId;
+    private int scheduleId;
     private String title;
     private String labelColor;
     private String startDate;
@@ -24,8 +24,7 @@ public class ScheduleReqDto {
     private String repeatEndDate;
     private int repeatCount;
     private String description;
-    //temp
-    private int userId = 1;
+    private int userId;
 
     public ScheduleEntity toEntity () {
         return ScheduleEntity.builder()
@@ -43,6 +42,7 @@ public class ScheduleReqDto {
                 .repeatCount(repeatCount)
                 .description(description)
                 .userId(userId)
+                .calendarScheduleId(scheduleId)
                 .build();
     }
 }
