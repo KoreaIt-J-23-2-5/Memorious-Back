@@ -121,7 +121,7 @@
 - Airbnb의 코딩 컨벤션을 참고해 사용했고, 예외 규칙은 팀원들과 협의했습니다.
 - 협업 시 매번 컨벤션을 신경 쓸 필요 없이 빠르게 개발하는 데에 목적을 두었습니다.
 
-##### 코드 품질 관리 <img src="https://img.shields.io/badge/Eslint-38297c?logo=eslint&logoColor=white">
+> 코드 품질 관리 <img src="https://img.shields.io/badge/Eslint-38297c?logo=eslint&logoColor=white">
 
 ```javascript
 module.exports = {
@@ -201,7 +201,7 @@ module.exports = {
 ```
 
 
-##### 코드 포맷팅  <img src="https://img.shields.io/badge/Prettier-8c6414?logo=prettier&logoColor=white">
+> 코드 포맷팅  <img src="https://img.shields.io/badge/Prettier-8c6414?logo=prettier&logoColor=white">
 
 ```javascript
 {
