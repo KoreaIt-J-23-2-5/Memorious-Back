@@ -216,11 +216,13 @@ module.exports = {
 
 
 
- ## 요구사항명세서 및 화면 정의서
- #### [요구사항명세서 바로가기](https://platinum-infinity-b08.notion.site/1-77e4fdb543504afd90accdc80f808117?pvs=4)
- #### [화면 정의서 바로가기](https://www.figma.com/community/file/1317744980901381622/memorious-team-library)
+## 요구사항명세서 및 화면 정의서
+#### [요구사항명세서 바로가기](https://platinum-infinity-b08.notion.site/1-77e4fdb543504afd90accdc80f808117?pvs=4)
+#### [화면 정의서 바로가기](https://www.figma.com/community/file/1317744980901381622/memorious-team-library)
+
+<br>
 ## 기능 설명 및 코드리뷰
-### 소셜 로그인인
+### 소셜 로그인
 <div>
 	<img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/a1d7d556-e790-4439-954e-64ff997bcc59" width=60%>
 </div>
