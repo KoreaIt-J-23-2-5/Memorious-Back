@@ -39,10 +39,19 @@
         from
             memo_tb mt
             left outer join user_tb ut on(ut.user_id = mt.memo_author_id)
+            left outer join member_tb mt on(mt.user_id = ut.user_id)
+            left outer join family_tb ft on(ft.family_id = mt.family_id)
+        where
+            ft.family_id = #{familyId}
         order by
             memo_id desc
         limit #{index}, 9;
     </select>
+
+    from
+    board_category_tb bct
+    left outer join board_tb bt on(bt.board_category_id=bct.board_category_id)
+    left outer join user_tb ut on(ut.nickname = bt.nickname)
     <select id="getMemoListTotalCount" resultType="java.lang.Integer">
         select
             count(content)
