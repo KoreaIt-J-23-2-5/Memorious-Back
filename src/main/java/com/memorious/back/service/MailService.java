@@ -59,7 +59,7 @@ public class MailService {
            "<div>" +
                 "<h1> Memorious에 초대합니다.\n</h1>" +
                 "<h2>" + username + "님이 '" + familyName + "' 공간에 초대했습니다.\n</h2>" +
-                "<p>초대를 받으시려면 아래의 버튼을 눌러주세요.\n</p>" +
+                "<p>초대를 받으시려면 소셜 로그인 후, 본 이메일과 같은 이메일 주소를 입력해 회원가입을 완료해주세요.\n</p>" +
 			   "<a href=\"http://localhost:3000/invitation/auth/token?=" + token + "\">초대 수락하기</a>" +
            "</div>", "utf-8", "html"
 			);
