@@ -1,19 +1,89 @@
 spring:
-  profiles.include:
-    - secret
+  profiles:
+    active: local
+    group:
+      local: local, common, secret
+      blue: blue, common, secret
+      green: green, common, secret
+
+server:
+  env: blue
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirectUri: http://localhost:8080/login/oauth2/code/kakao
+          naver:
+            redirectUri: http://localhost:8080/login/oauth2/code/naver
+
+server:
+  port: 8080
+  serverAddress: localhost
+
+serverName: local_server
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: blue
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirectUri: http://43.201.89.47/login/oauth2/code/kakao
+          naver:
+            redirectUri: http://43.201.89.47/login/oauth2/code/naver
+server:
+  port: 8080
+  serverAddress: 43.201.89.47
+
+serverName: blue_server
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: green
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirectUri: http://43.201.89.47/login/oauth2/code/kakao
+          naver:
+            redirectUri: http://43.201.89.47/login/oauth2/code/naver
+server:
+  port: 8081
+  serverAddress: 43.201.89.47
+
+serverName: green_server
+
+---
+
+spring:
   security:
     oauth2:
       client:
         registration:
           kakao:
             clientId: 9b8d585e48ccfcc2fca696e8b4fcf1a3
-            redirectUri: http://localhost:8080/login/oauth2/code/kakao
             authorizationGrantType: authorization_code
             clientAuthenticationMethod: POST
             clientName: Kakao
           naver:
             clientId: A8sKdDUmlEtqEuVBR1Ka
-            redirectUri: http://localhost:8080/login/oauth2/code/naver
             authorizationGrantType: authorization_code
             clientAuthenticationMethod: POST
             clientName: Naver

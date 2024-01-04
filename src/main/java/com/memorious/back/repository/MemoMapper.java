@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface MemoMapper {
     public int writeMemo(MemoEntity memoEntity);
-    public List<MemoEntity> getMemoList(int index);
+    public List<MemoEntity> getMemoList(int index, int familyId);
     public int getMemoListTotalCount();
     public int updateMemoContent(MemoEntity memoEntity);
     public int deleteMemoContent(int index);
