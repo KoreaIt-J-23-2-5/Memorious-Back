@@ -1,5 +1,5 @@
 
-[Memorious 바로가기](https://naver.com/)
+[Memorious 바로가기](http://memorious-korit.s3-website.ap-northeast-2.amazonaws.com/)
 
 <div align="center">
 
