@@ -22,6 +22,7 @@ jobs:
 
       - name: Build with Maven
         run: |
+          echo ${{secrets.APPLICATION_SECRET}} | base64 --decode > ./src/main/resources/application-secret.yml
           chmod 777 ./mvnw
           ./mvnw clean package -Dtestskip
 
