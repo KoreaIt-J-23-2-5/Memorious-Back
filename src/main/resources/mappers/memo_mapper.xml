@@ -11,18 +11,18 @@
     </resultMap>
     <insert id="writeMemo" parameterType="com.memorious.back.entity.MemoEntity">
         insert into
-            memo_tb
+        memo_tb
         values
-            (0, #{content}, #{createdDate}, #{memoAuthorId})
+        (0, #{content}, #{createdDate}, #{memoAuthorId})
     </insert>
     <update id="updateMemoContent" parameterType="com.memorious.back.entity.MemoEntity">
         update
-            memo_tb
+        memo_tb
         set
-            content = #{content},
-            created_date = #{createdDate}
+        content = #{content},
+        created_date = #{createdDate}
         where
-            memo_id = #{memoId}
+        memo_id = #{memoId}
     </update>
     <delete id="deleteMemoContent" parameterType="int">
         delete from memo_tb
@@ -32,39 +32,39 @@
             parameterType="int"
             resultMap="memoMap">
         select
-            mt.memo_id,
-            mt.content,
-            mt.created_date,
-            ut.nickname
+        mt.memo_id,
+        mt.content,
+        mt.created_date,
+        ut.nickname
         from
             memo_tb mt
             left outer join user_tb ut on(ut.user_id = mt.memo_author_id)
             left outer join member_tb met on(met.user_id = ut.user_id)
             left outer join family_tb ft on(ft.family_id = met.family_id)
         where
-            ft.family_id = #{familyId}
+        ft.family_id = #{familyId}
         order by
             mt.memo_id desc
         limit #{index}, 9;
     </select>
     <select id="getMemoListTotalCount" resultType="java.lang.Integer">
         select
-            count(content)
+        count(content)
         from
-            memo_tb
+        memo_tb
     </select>
     <select id="findMemo" resultMap="memoMap">
         select
-            memo_id,
-            content,
-            created_date,
-            memo_author_id
+        memo_id,
+        content,
+        created_date,
+        memo_author_id
         from
-            memo_tb
+        memo_tb
         where
-            content like concat("%", #{searchkey}, "%")
+        content like concat("%", #{searchkey}, "%")
         order by
-            memo_id desc;
+        memo_id desc;
     </select>
 
 </mapper>

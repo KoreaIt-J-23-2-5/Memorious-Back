@@ -7,6 +7,7 @@ import com.memorious.back.repository.InviteMapper;
 import com.memorious.back.security.PrincipalUser;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -29,6 +30,8 @@ public class MailService {
 	private final JwtProvider jwtProvider;
 	private final InviteMapper inviteMapper;
 
+	@Value("${server.serverAddress}")
+	private String serverAddress;
 
 	@Transactional(rollbackFor = Exception.class)
 	public boolean sendInvitation(Map<String, String> invitedEmailMap) {
@@ -60,7 +63,7 @@ public class MailService {
                 "<h1> Memorious에 초대합니다.\n</h1>" +
                 "<h2>" + username + "님이 '" + familyName + "' 공간에 초대했습니다.\n</h2>" +
                 "<p>초대를 받으시려면 소셜 로그인 후, 본 이메일과 같은 이메일 주소를 입력해 회원가입을 완료해주세요.\n</p>" +
-			   "<a href=\"http://localhost:3000/invitation/auth/token?=" + token + "\">초대 수락하기</a>" +
+			   "<a href=\"http://memorious-korit.s3-website.ap-northeast-2.amazonaws.com/invitation/auth/token?=" + token + "\">초대 수락하기</a>" +
            "</div>", "utf-8", "html"
 			);
 			javaMailSender.send(mimeMessage);

@@ -33,13 +33,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String provider = principalUser.getAttributes().get("provider").toString();
 
         if(user == null) {
-            response.sendRedirect("http://localhost:3000/auth/oauth2/signup" +
+            response.sendRedirect("http://memorious-korit.s3-website.ap-northeast-2.amazonaws.com/auth/oauth2/signup" +
                     "?oauth2Id=" + oauth2Id +
                     "&provider=" + provider);
             return;
         }
         String token = jwtProvider.generateToken(user);
 
-        response.sendRedirect("http://localhost:3000/auth/oauth2/signin/redirect?token=" + URLEncoder.encode(token, "UTF-8")); // 프론트 처리
+        response.sendRedirect("http://memorious-korit.s3-website.ap-northeast-2.amazonaws.com/auth/oauth2/signin/redirect?token=" + URLEncoder.encode(token, "UTF-8")); // 프론트 처리
     }
 }
