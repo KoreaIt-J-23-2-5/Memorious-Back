@@ -3,6 +3,7 @@ package com.memorious.back.service;
 import com.memorious.back.dto.MemoDto;
 import com.memorious.back.dto.MemoListRespDto;
 import com.memorious.back.entity.MemoEntity;
+import com.memorious.back.entity.User;
 import com.memorious.back.exception.ValidException;
 import com.memorious.back.repository.MemoMapper;
 import com.memorious.back.security.PrincipalUser;
@@ -26,10 +27,14 @@ public class MemoService {
     }
 
     public Map<String, Object> getMemoList(int pageNum) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = principalUser.getUser();
+        int familyId = user.getFamilyId();
+
         Map<String, Object> resultMap = new HashMap<>();
         int index = (pageNum) * 9;
         List<MemoListRespDto> memolist = new ArrayList<>();
-        memoMapper.getMemoList(index).forEach(memo -> {
+        memoMapper.getMemoList(index, familyId).forEach(memo -> {
             memolist.add(memo.toDto());
         });
         resultMap.put("totalCount", memoMapper.getMemoListTotalCount());
