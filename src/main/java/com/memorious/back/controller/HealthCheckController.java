@@ -30,6 +30,7 @@ public class HealthCheckController {
         responseData.put("serverAddress", serverAddress);
         responseData.put("serverPort", serverPort);
         responseData.put("env", env);
+        responseData.put("name", "주성광");
 
         return ResponseEntity.ok(responseData);
     }
