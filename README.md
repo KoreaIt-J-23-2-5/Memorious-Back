@@ -56,21 +56,23 @@
 #### 공동 작업
 - 요구사항명세서 및 화면 정의서
 - API 설계서 작성
-- PPT 제작 및 발표
+- PPT 제작
 - DB 설계 및 관리
 - 이 외 모든 기획 작업 및 문서 작업
   
 #### 주성광
-- 가족 일정 공유 캘린더 기능 구현
+- 가족 일정 공유 캘린더 구현
 	- 캘린더 월별 조회
 	- 일정 추가/조회/수정/삭제
-  - 반복 일정 추가
-- 초대 메일 전송 및 초대 기능 구현
-- 프로필 사진 변경 기능
-- 프로젝트 발표(3회)
+	- 반복 일정 추가
+- 가족 구성원 초대 구현(e-mail)
+- 서버 무중단 배포
+- 프론트 엔드 배포
+- CI/CD 파이프라인 구축
+- 프로필 사진 변경 구현
 - ERD 다이어그램 작성
-- 서비스 배포(AWS EC2, S3, Docker)
- 
+- 프로젝트 발표(3회)
+    
 #### 우주영
 - 네이버, 카카오 소셜 로그인 / 회원가입 기능 구현
 - 가족페이지 생성 기능 구현
@@ -81,10 +83,10 @@
 - JWT, Security 관리
 
 #### 한유정(중도 하차)
-- 라우팅 설정
-- 공통 UI, 사이드바 UI 구현
+- 공통 UI 설정 및 사이드바 구현
 - 가족 차트 CRUD
 - 메모 CRUD
+- 라우팅 설정
 - ESLint, Prettier 설정
 
 <p align="right"><a href="#목차">목차 🔼</a></p>
@@ -120,6 +122,7 @@
   <img src="https://img.shields.io/badge/Docker-1b5e90?logo=docker&logoColor=white">
   <img src="https://img.shields.io/badge/Amazon_S3-446a29?logo=amazons3&logoColor=white">
   <img src="https://img.shields.io/badge/Amazon_EC2-ab6d10?logo=amazonec2&logoColor=white">
+  <img src="https://img.shields.io/badge/Github_Actions-2088FF?logo=githubactions&logoColor=white">
 </p>
 
 ### Version Control
@@ -185,7 +188,7 @@
 ## 협업 방식
 ### 브랜치 전략 : Github-Flow
 ![image](https://github.com/KoreaIt-J-23-2-5/Memorious-Back/assets/97303815/4b5a58ea-0fc7-4d8b-996f-5d3e9320d9d7) 
-- 개발 기간이 짧고, 개발을 마친 후 배포를 진행하기 때문에  효율적이고 간소화된 프로세스인 Github Flow를 채택하였습니다.  각 팀원은 자신의 브랜치에서 작업하고, 기능이 완성되면 피드백을 받은 후 'main'브랜치로 merge하였습니다. Github-flow를 채택함으로써  지속적인 통합으로 프로젝트의 안정성을 높이고 팀 간 충돌을 최소화하며 더 나은 협업을 가능하게 하였습니다.
+- 개발 기간이 짧고, 개발을 마친 후 배포를 진행하기 때문에 효율적이고 간소화된 프로세스인 Github Flow를 채택하였습니다.  각 팀원은 자신의 브랜치에서 작업하고, 기능이 완성되면 피드백을 받은 후 'main'브랜치로 merge하였습니다. Github-flow를 채택함으로써  지속적인 통합으로 프로젝트의 안정성을 높이고 팀 간 충돌을 최소화하며 더 나은 협업을 가능하게 하였습니다.
 
 ### 협업 툴
 - 노션: 각종 요구사항 관련 문서, 회의록 등의 문서화를 통한 팀원들과 프로젝트 정보를 실시간으로 공유 및 기록하고, 프로젝트의 전반적인 체계를 잡아갈 수 있었습니다.
@@ -276,27 +279,6 @@
 
 - 소셜 계정으로 로그인 시도했을 시 회원가입이 되어있지 않을 경우 추가 입력(회원가입) 화면으로 이동합니다.
 
-<details>
-	<summary>Code Review</summary>
-
-#### Front-End
-```javascript
-	const fetchData = async () => {
-	};
-```
-(코드 설명)
-
-#### Back-End
-
-```java
-   public class BootSpringBootApplication {
-     public static void main(String[] args) {
-       System.out.println("Sample");
-     }
-   }
-```
-(코드 설명)
-</details>
 
 ### 가족 페이지 생성
 <div>
@@ -305,82 +287,62 @@
 
 - 가족 구성원과의 추억과 일정 등을 기록할 우리 가족만의 페이지를 만드는 기능입니다.
 - 로그인 후 소속된 가족이 없을 경우 다음 화면이 표시됩니다.
-
-  <details>
-    <summary>Code Review</summary>
-    
-	 #### Front-End
-	```javascript
-      const fetchData = async () => {
-      };
-    ```
-   (코드 설명)
-
-	#### Back-End
-	```java
-    public class BootSpringBootApplication {
-      public static void main(String[] args) {
-        System.out.println("Sample");
-      }
-    }
-    ```
-    (코드 설명)
-  </details>
  
 
 ### 가족 초대
 - 가족의 이메일을 입력하여 가족을 초대할 수 있으며, 입력한 이메일로 초대 메일이 전송됩니다.
 - 초대를 받은 회원은 가족이 입력한 이메일을 사용하여 회원가입하면 초대가 완료됩니다.
+  
   <details>
-    <summary>Code Review</summary> 
-    - 회원가입 완료 후 요청을 보냄
+    <summary>Code Review</summary>   
 
-    <details>
-      <summary>service</summary> 
-        
-    ```java
-    public boolean isInvitedByEmail () {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = principalUser.getUser();
+	<details>
+	  <summary> Service </summary>*
+	    
+	```java
+	public boolean isInvitedByEmail () {
+		PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = principalUser.getUser();
 
-        String email = user.getEmail(); //초대받는 사람의 email
-        int userId = user.getUserId(); //초대 받는 사람의 userId
-        int familyId = inviteMapper.getFamilyIdByEmail(email); //초대 하는 가족의Id
+		String email = user.getEmail(); //초대받는 사람의 email
+		int userId = user.getUserId(); //초대 받는 사람의 userId
+		int familyId = inviteMapper.getFamilyIdByEmail(email); //초대 하는 가족의Id
 
-        // status : null(초대된 적 없음) 0(초대이력o, 가족소속x), 1(이미 소속완료)
-        Integer inviteStatus = inviteMapper.getInvitationStatusByEmail(email);
+		// status : null(초대된 적 없음) 0(초대이력o, 가족소속x), 1(이미 소속완료)
+		Integer inviteStatus = inviteMapper.getInvitationStatusByEmail(email);
 
-        if(inviteStatus == null) {
-            throw new MailException("초대된 적이 없습니다.");
-        }
+		if(inviteStatus == null) {
+			throw new MailException("초대된 적이 없습니다.");
+		}
 
-        if(inviteStatus == 1) {
-            throw new MailException("이미 초대가 완료되었습니다.");
-        }
+		if(inviteStatus == 1) {
+			throw new MailException("이미 초대가 완료되었습니다.");
+		}
 
-        //member tb에 insert
-        Map<String, Integer> memberMap = new HashMap<>();
+		//member tb에 insert
+		Map<String, Integer> memberMap = new HashMap<>();
 
-        memberMap.put("userId", userId);
-        memberMap.put("familyId", familyId);
+		memberMap.put("userId", userId);
+		memberMap.put("familyId", familyId);
 
-        try {
-            inviteMapper.insertMember(memberMap);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //History의 초대상태 값을 1로 변경
-        try {
-            inviteMapper.updateHistory(email);
-        }catch (Exception e) {
-            e.printStackTrace();
-            throw new MailException("초대 상태 수정 중 오류");
-        }
-        return inviteStatus == 0 ;
-    }
-    ```
-    </details>
+		try {
+			inviteMapper.insertMember(memberMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//History의 초대상태 값을 1로 변경
+		try {
+			inviteMapper.updateHistory(email);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new MailException("초대 상태 수정 중 오류");
+		}
+		return inviteStatus == 0 ;
+	}
+	```
+	</details>
 
+	
     <details>
       <summary>Mapper.xml</summary> 
         
@@ -430,53 +392,54 @@
     </select>
     ```
     </details>
-    {코드 설명...}
+	
   </details>
 
 ### 캘린더
 <!-- 조회부 GIF -->
 - 한 달 간의 가족 일정을 조회할 수 있으며 각각의 일정은 알고리즘이 정한 순서에 따라 보기좋게 배치됩니다.
-  <details>
-    <summary>Code Review</summary> 
 
-    <details>
-      <summary>1. 데이터 정렬</summary> 
+	<details>
+		<summary>Code Review</summary> 
+
+	<details>
+		<summary>1. 데이터 정렬</summary> 
       
-    ```javascript
-      const sortCalendarData = (a, b) => {
-          // 1-1. 시작 날짜순 정렬
-          const startDiff = dayjs(a.startDate).diff(b.startDate);
-          if (startDiff !== 0) {
-              return startDiff;
-          }
-        
-        // 1-2. 일정 길이가 큰 순으로 정렬
-        const diffA = dayjs(a.endDate).diff(a.startDate);
-        const diffB = dayjs(b.endDate).diff(b.startDate);
-    
-        if (diffA > diffB) {
-            return -1;
-        }
-        if (diffA < diffB) {
-            return 1;
-        }
-    
-        // 1-3. 종일 일정 우선
-        if (a.isAllDay) {
-            return -1;
-        }
-        if (b.isAllDay) {
-            return 1;
-        }
-    
-        // 1-4. 시작 시간이 이른 순서
-        const startTimeA = dayjs(`${a.startDate} ${a.startTime}`);
-        const startTimeB = dayjs(`${b.startDate} ${b.startTime}`);
-    
-        return startTimeA.diff(startTimeB);
-      };
-    
-    ```
+	```javascript
+	  const sortCalendarData = (a, b) => {
+		  // 1-1. 시작 날짜순 정렬
+		  const startDiff = dayjs(a.startDate).diff(b.startDate);
+		  if (startDiff !== 0) {
+			  return startDiff;
+		  }
+		
+		// 1-2. 일정 길이가 큰 순으로 정렬
+		const diffA = dayjs(a.endDate).diff(a.startDate);
+		const diffB = dayjs(b.endDate).diff(b.startDate);
+	
+		if (diffA > diffB) {
+			return -1;
+		}
+		if (diffA < diffB) {
+			return 1;
+		}
+	
+		// 1-3. 종일 일정 우선
+		if (a.isAllDay) {
+			return -1;
+		}
+		if (b.isAllDay) {
+			return 1;
+		}
+	
+		// 1-4. 시작 시간이 이른 순서
+		const startTimeA = dayjs(`${a.startDate} ${a.startTime}`);
+		const startTimeB = dayjs(`${b.startDate} ${b.startTime}`);
+	
+		return startTimeA.diff(startTimeB);
+	  };
+	
+	```
     </details>
   
     <details>
@@ -858,7 +821,7 @@
             } while (startDateObj.isBefore(repeatEndDateObj));
             return true;
         }
-          ...나머지 method생략
+          //나머지 method 지면상 생략
     ```
     </details>
 
@@ -964,26 +927,6 @@
 - 전체 글 목록이 게시판 형태로 표시됩니다.
 - 카테고리별로 게시글을 조회할 수 있고, 또한 검색 범위와 입력한 검색어에 따른 검색이 가능합니다.
 
-  <details>
-    <summary>Code Review</summary>
-    
-	 #### Front-End
-	```javascript
-      const fetchData = async () => {
-      };
-    ```
-   (코드 설명)
-
-	#### Back-End
-	```java
-    public class BootSpringBootApplication {
-      public static void main(String[] args) {
-        System.out.println("Sample");
-      }
-    }
-    ```
-    (코드 설명)
-  </details>
 
 ### 건강 차트
 - 혈당, 걸음수, 맥박 데이터를 그래프로 직관적으로 표시합니다.
