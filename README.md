@@ -271,22 +271,17 @@
 <!-- Example Foam !-->
 ### 소셜 로그인 / 회원가입
 <div>
-     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/a1d7d556-e790-4439-954e-64ff997bcc59" width=80%>
+     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/0b66219f-012f-4ac2-b833-d11c19613074">
 </div>
 
    - 사용자가 로그인이 되어있지 않을 시 표시되는 로그인 화면입니다.
    - 네이버, 카카오를 통한 로그인을 지원합니다. 
- 
-<div>
-  <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Back/assets/97303815/5cefc769-d3f0-4df5-add1-11e41e4580b2" width=80%>
-</div>
-
-- 소셜 계정으로 로그인 시도했을 시 회원가입이 되어있지 않을 경우 추가 입력(회원가입) 화면으로 이동합니다.
+   - 소셜 계정으로 로그인 시도했을 시 회원가입이 되어있지 않을 경우 추가 입력(회원가입) 화면으로 이동합니다.
 
 
 ### 가족 페이지 생성
 <div>
-	<img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Back/assets/97303815/550dd4de-29be-4f18-93e0-99844ac3b574" width=80%>
+	<img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Back/assets/97303815/550dd4de-29be-4f18-93e0-99844ac3b574" width=60%>
 </div>
 
 - 가족 구성원과의 추억과 일정 등을 기록할 우리 가족만의 페이지를 만드는 기능입니다.
@@ -951,9 +946,8 @@
 
 ### 게시판
 <div>
-	<img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Back/assets/97303815/5ef99699-3497-4486-8bcf-bfa0c66f7528" width=70%>
-	<img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Back/assets/97303815/2d9e78ad-f5c5-4708-839c-9199dca303ad" width=70%>
 	<img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Back/assets/97303815/7145c35a-dff7-4b0c-a782-8efa6fed3a53" width=70%>
+	<img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/be11dbcc-922e-4d61-96ff-1c933310cb12">
 </div>
 
 - 가족 구성원이 회의록, 식단, 건의사항 등 카테고리를 지정하고 사진과 글을 포스팅할 수 있는 기능입니다.
