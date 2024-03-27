@@ -397,9 +397,7 @@
 
 ### 캘린더
 <!-- 조회부 GIF -->
-<div>
-     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/79c2cd14-05de-4a00-8d0c-4f22026829d6">
-</div>
+
 <div>
      <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/80ca9fa9-e46e-4306-a4b0-bebafe914850">
 </div>
@@ -621,12 +619,12 @@
     
     ```
     </details>
-    
-- '오늘' '다음 월' '이전 월' 버튼과 연도 드롭다운을 통해 편리하게 원하는 월로 이동할 수 있습니다.
 
 <div>
-     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/ae53c801-ce13-4833-8c1f-dc5eace33471">
+     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/79c2cd14-05de-4a00-8d0c-4f22026829d6">
 </div>
+
+- '오늘' '다음 월' '이전 월' 버튼과 연도 드롭다운을 통해 편리하게 원하는 월로 이동할 수 있습니다.
 -  해상도가 16:9 환경에서는 5행(6주인 월에는 6행), 16:10 환경에서는 6행의 캘린더를 보여주고, 셀의 height값에 맞게 일정이 표시됩니다.
       <details>
         <summary>Code Review</summary> 
@@ -678,6 +676,11 @@
       };
       ```
       </details>
+
+<div>
+     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/ae53c801-ce13-4833-8c1f-dc5eace33471">
+</div>
+
 -  한 날짜에 모든 일정을 보여주지 못할 경우 'n개 더보기'를 표시하고, 해당 날짜의 전체 일정을 확인할 수 있는 모달창을 띄어줍니다.
 
 <div>
