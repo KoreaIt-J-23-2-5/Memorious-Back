@@ -397,10 +397,12 @@
 
 ### 캘린더
 <!-- 조회부 GIF -->
-<p>
-     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/ed67fe66-d668-4139-a48f-5f0f49804b9f">
-</p>
-
+<div>
+     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/79c2cd14-05de-4a00-8d0c-4f22026829d6">
+</div>
+<div>
+     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/80ca9fa9-e46e-4306-a4b0-bebafe914850">
+</div>
 
 - 한 달 간의 가족 일정을 조회할 수 있으며 각각의 일정은 알고리즘이 정한 순서에 따라 보기좋게 배치됩니다.
 
@@ -621,6 +623,10 @@
     </details>
     
 - '오늘' '다음 월' '이전 월' 버튼과 연도 드롭다운을 통해 편리하게 원하는 월로 이동할 수 있습니다.
+
+<div>
+     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/ae53c801-ce13-4833-8c1f-dc5eace33471">
+</div>
 -  해상도가 16:9 환경에서는 5행(6주인 월에는 6행), 16:10 환경에서는 6행의 캘린더를 보여주고, 셀의 height값에 맞게 일정이 표시됩니다.
       <details>
         <summary>Code Review</summary> 
@@ -673,7 +679,11 @@
       ```
       </details>
 -  한 날짜에 모든 일정을 보여주지 못할 경우 'n개 더보기'를 표시하고, 해당 날짜의 전체 일정을 확인할 수 있는 모달창을 띄어줍니다.
-<!-- 추가 GIF -->
+
+<div>
+     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/8757f5f3-031c-42b8-a384-956a693ae70c">
+</div>
+
 - '일정 추가' 버튼 또는 일정 셀을 클릭해 클릭한 날짜에 일정을 추가할 수 있습니다.
 - 반복 주기(5가지)와 종료일 또는 종료 횟수를 직접 정하여 반복되는 일정을 추가할 수 있습니다.
    <details>
@@ -909,7 +919,10 @@
     ```
     </details>
     
-<!-- 상세조회 / 수정 / 삭제 GIF -->
+<div>
+     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/562b3d6a-7c55-4060-bc8d-2d183bbe759b">
+</div>
+
 - 등록된 일정을 클릭하면 세부 내용을 확인하고, 수정 또는 삭제할 수 있습니다.
 
 ### 메모
