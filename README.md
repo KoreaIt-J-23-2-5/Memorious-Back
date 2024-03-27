@@ -397,9 +397,9 @@
 
 ### 캘린더
 <!-- 조회부 GIF -->
-<div>
+<p>
      <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/ed67fe66-d668-4139-a48f-5f0f49804b9f">
-</div>
+</p>
 
 
 - 한 달 간의 가족 일정을 조회할 수 있으며 각각의 일정은 알고리즘이 정한 순서에 따라 보기좋게 배치됩니다.
