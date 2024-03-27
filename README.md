@@ -1,6 +1,8 @@
 
 [Memorious 바로가기](http://memorious-korit.s3-website.ap-northeast-2.amazonaws.com/)
 
+> 서버 유지 비용 문제로 배포 중단(24.03 ~ )
+
 [시연 영상 바로가기](https://www.youtube.com/channel/UCu41Ln5jEMnP0MjRCJBtICw)
 
 <div align="center">
