@@ -1,5 +1,6 @@
 
 [Memorious 바로가기](http://memorious-korit.s3-website.ap-northeast-2.amazonaws.com/)
+[시연 영상 바로가기](https://www.youtube.com/channel/UCu41Ln5jEMnP0MjRCJBtICw)
 
 <div align="center">
 
@@ -290,6 +291,11 @@
  
 
 ### 가족 초대
+
+<div>
+     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/ef4e7f29-ca9a-4814-b0d2-f6f53477ddd4">
+</div>
+
 - 가족의 이메일을 입력하여 가족을 초대할 수 있으며, 입력한 이메일로 초대 메일이 전송됩니다.
 - 초대를 받은 회원은 가족이 입력한 이메일을 사용하여 회원가입하면 초대가 완료됩니다.
   
@@ -929,6 +935,10 @@
 - 등록된 일정을 클릭하면 세부 내용을 확인하고, 수정 또는 삭제할 수 있습니다.
 
 ### 메모
+<div>
+     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/d3034b54-c239-43cf-9845-4102609e85dc">
+</div>
+
 - 포스트잇과 비슷한 형태의 메모를 작성할 수 있습니다.
 - 최신 일정순으로 정렬되며 무한스크롤을 지원합니다.
 - 작성자 본인만이 메모를 수정하거나 삭제 할 수 있습니다.
@@ -941,7 +951,6 @@
 	<img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Back/assets/97303815/5ef99699-3497-4486-8bcf-bfa0c66f7528" width=70%>
 	<img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Back/assets/97303815/2d9e78ad-f5c5-4708-839c-9199dca303ad" width=70%>
 	<img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Back/assets/97303815/7145c35a-dff7-4b0c-a782-8efa6fed3a53" width=70%>
-
 </div>
 
 - 가족 구성원이 회의록, 식단, 건의사항 등 카테고리를 지정하고 사진과 글을 포스팅할 수 있는 기능입니다.
@@ -950,6 +959,10 @@
 
 
 ### 건강 차트
+<div>
+     <img src="https://github.com/KoreaIt-J-23-2-5/Memorious-Front/assets/133538833/115dc429-14c7-4c4b-88a8-f3b21aea7734">
+</div>
+
 - 혈당, 걸음수, 맥박 데이터를 그래프로 직관적으로 표시합니다.
 - 사이드바에서 인원별, 기간별(1, 3, 6개월) 필터링을 지원합니다.
 - 입력페이지에서 데이터를 손쉽게 추가 및 수정(모달)할 수 있습니다.
